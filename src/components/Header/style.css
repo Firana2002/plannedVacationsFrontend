@@ -1,0 +1,23 @@
+.header {
+    background-color: white;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.page-title {
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+    color: #656161;
+}
+
+.header-icons {
+    display: flex;
+    gap: 15px;
+}

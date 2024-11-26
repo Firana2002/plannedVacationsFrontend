@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: 800 32px Inter, sans-serif;
+  }
+
+  #root {
+    height: 100vh;
+  }  
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  
+  a {
+    text-decoration: none; /* Убираем подчеркивание */
+    cursor: pointer; /* Устанавливаем курсор в виде указателя */
+  }
+  
+  a:hover {
+    text-decoration: none; /* Убираем подчеркивание при наведении */
+  }
+  
+  .app-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение для шапки и основного контента */
+    margin-left: 33.33%; /* Отступ для основного контента, чтобы не перекрывать сайдбар */
+    padding: 20px; /* Отступы для основного контента */
+    background-color: #EDEEF0;
+}
+  

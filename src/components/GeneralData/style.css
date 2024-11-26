@@ -1,0 +1,55 @@
+.personal-data-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 997px;
+  padding: 60px;
+  background: white;
+  margin: 45px 0;
+  border: 1px solid #cfcfcf;
+  border-radius: 20px;
+}
+
+.personal-info-heading {
+  text-align: center;
+  margin: 0;
+  color: black;
+  font: 700 16px Inter, sans-serif;
+}
+
+.personal-info-general-info-text {
+  font: 300 16px Inter, sans-serif;
+}
+
+.personal-info-container {
+  width: 100%;
+  padding-bottom: 14.5px;
+}
+
+.personal-info {
+  border-bottom: 2px solid black;
+  padding: 20px 0;
+}
+
+.personal-info-label {
+  margin: 0;
+  font: 500 14px Inter, sans-serif;
+  color: black;
+}
+
+.personal-info-value {
+  margin: 10px 0 0 0;
+  font: italic 300 14px Inter, sans-serif;
+  color: #656161;
+}
+
+.personal-days {
+  display: inline;
+  padding: 12px;
+  font-weight: 700;
+  color: white;
+  background: #00514e;
+  border-radius: 10px;
+  border: 1px solid black;
+}

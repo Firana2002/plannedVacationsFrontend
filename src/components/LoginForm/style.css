@@ -1,0 +1,17 @@
+.login-form-container {
+    width: 100%;
+}
+
+.login-heading {
+    flex: 0 0 auto;
+    padding: 0;
+    margin: 30px 0;
+    font: 800 32px Inter, sans-serif;
+    color: #00514e;
+ }
+
+.login-prompt {
+    font-size: 15px;
+    color: #00514e;
+    margin-top: 15px;
+}
