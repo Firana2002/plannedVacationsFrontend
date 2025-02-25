@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import SearchInput from '../SearchInput'
+import SearchInput from '../SearchInput';
+import { getEmployees } from '@/api/employees';
 
 const EmployeeTable = () => {
-  const employees = [
-    { name: 'Тарнуева Номина', position: 'Дизайнер', department: 'Отдел 1', daysAccumulated: 10, role: 'Роль 1' },
-    { name: 'Тарнуева Номина', position: 'Дизайнер', department: 'Отдел 2', daysAccumulated: 15, role: 'Роль 2' },
-    { name: 'Тарнуева Номина', position: 'Дизайнер', department: 'Отдел 3', daysAccumulated: 20, role: 'Роль 3' },
-    { name: 'Тарнуева Номина', position: 'Дизайнер', department: 'Отдел 4', daysAccumulated: 5, role: 'Роль 4' },
-  ];
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const data = await getEmployees();
+        setEmployees(data);
+      } catch (error) {
+        console.error("Ошибка при получении сотрудников:", error);
+      }
+    };
+
+    fetchEmployees();
+  }, []);
 
   return (
     <>
-    <SearchInput />
+      <SearchInput />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -26,10 +35,10 @@ const EmployeeTable = () => {
           <TableBody>
             {employees.map((employee, index) => (
               <TableRow key={index}>
-                <TableCell>{employee.name} ({employee.position})</TableCell>
-                <TableCell>{employee.department}</TableCell>
-                <TableCell align="center">{employee.daysAccumulated}</TableCell>
-                <TableCell>{employee.role}</TableCell>
+                <TableCell>{employee.nameEmployees} ({employee.position})</TableCell>
+                <TableCell>{employee.department.nameDepartments}</TableCell>
+                {/* <TableCell align="center">{employee.daysAccumulated}</TableCell> */}
+                {/* <TableCell>{employee.role}</TableCell> */}
               </TableRow>
             ))}
           </TableBody>
