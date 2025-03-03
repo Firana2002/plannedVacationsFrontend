@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5172/api/employees';
+const API_URL = 'http://localhost:5162/api/employees';
 
 export const getEmployees = async () => {
     const response = await axios.get(API_URL);
@@ -23,14 +23,4 @@ export const updateEmployee = async (id, employee) => {
 
 export const deleteEmployee = async (id) => {
     await axios.delete(`${API_URL}/${id}`);
-};
-
-export const loginEmployee = async (username, password) => {
-    //const response = await axios.post(API_URL, { username, password });
-    const response = {
-        "id": 2,
-        "NameEmployees": "Иван Иванов",
-        "DepartmentId": 1
-    }
-    return response
 };

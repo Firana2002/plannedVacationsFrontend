@@ -1,5 +1,7 @@
 {
   "name": "vacations",
+  "type": "module",
+  "proxy": "http://localhost:5162",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -37,5 +39,11 @@
   "description": "This project contains all the code to generate the preview of the node you have selected in the figma",
   "main": "vite.config.js",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.9",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.9"
+  }
 }

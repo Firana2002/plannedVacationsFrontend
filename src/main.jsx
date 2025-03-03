@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import './main.css';
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
-import LoginPage from './pages/LoginPage';
+import LoginPage from '@/pages/LoginPage';
+import RegisterPage from '@/pages/RegisterPage';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import ProfilePage from "./pages/ProfilePage";
@@ -52,6 +53,7 @@ root.render(
       <Routes>
         {/* Маршрут для страницы авторизации */}
         <Route path="/login" element={<PrivateRoute element={<LoginPage />} />} />
+        <Route path="/register" element={<PrivateRoute element={<RegisterPage />} />} />
         
         {/* Основные маршруты с сайдбаром и шапкой */}
         <Route path="/*" element={<AppRoutes />} />

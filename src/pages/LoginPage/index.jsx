@@ -1,34 +1,58 @@
-import SystemEntryView from "@/components/SystemEntryView";
-import "./style.css";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import ErrorMessage from '@/components/ErrorMessage';
+import { loginUser } from '@/api/Auth';
 
-function ComponentYouSelected() {
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [role, setRole] = useState('сотрудник');
+    const [employeeId, setEmployeeId] = useState(0);
 
-  useEffect(() => {
-    if (user) {
-      console.log(user)
-      navigate(`/home/${user.id}`);
-    }
-  }, [user, navigate]);
-  return (
-    <div className="system-login-container1">
-        <SystemEntryView />
-        <div className="footer-links-container">
-          <p className="header-link">Copyright © 2024 IPJSC EN+ GROUP</p>
-          <div className="navigation-links-container">
-            <p className="header-link">О Приложении</p>
-            <p className="header-link">Правила</p>
-            <p className="header-link">Для бизнеса</p>
-            <p className="header-link">Разработчикам</p>
-            <p className="header-link">Русский/English</p>
-          </div>
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        try {
+            const response = await loginUser(email, password, role, employeeId);
+            console.log('Login successful:', response.data);
+            // Здесь можно добавить редирект или другую логику
+        } catch (err) {
+            setError('Ошибка входа. Проверьте свои учетные данные.');
+        }
+    };
+
+    return (
+        <div className="max-w-md mx-auto mt-10">
+            <h2 className="text-2xl mb-4">Вход</h2>
+            {error && <ErrorMessage message={error} />}
+            <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md">
+                <div className="mb-4">
+                    <label className="block text-gray-700">Email</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded p-2"
+                        required
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700">Пароль</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded p-2"
+                        required
+                    />
+                </div>
+                <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
+                    Войти
+                </button>
+            </form>
         </div>
-      </div>
-  );
-}
+    );
+};
 
-export default ComponentYouSelected;
+export default Login;
