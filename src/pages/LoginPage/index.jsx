@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ErrorMessage from '@/components/ErrorMessage';
 import { loginUser } from '@/api/Auth';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [role, setRole] = useState('сотрудник');
     const [employeeId, setEmployeeId] = useState(0);
+    const token = localStorage.getItem('token');
+
+    useEffect(() => {
+        if (token) {
+            navigate('/home');
+        }
+    }, [token, navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -15,8 +24,8 @@ const Login = () => {
 
         try {
             const response = await loginUser(email, password, role, employeeId);
-            console.log('Login successful:', response.data);
-            // Здесь можно добавить редирект или другую логику
+            localStorage.setItem('token', response);
+            navigate('/home');
         } catch (err) {
             setError('Ошибка входа. Проверьте свои учетные данные.');
         }

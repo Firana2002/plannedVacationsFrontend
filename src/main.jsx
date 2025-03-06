@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import ProfilePage from "./pages/ProfilePage";
 import EmployeeTable from "./components/TeamOverviewView";
-import CalendarPage from "./pages/CalendarPage";
+import CreateVacationPage from "./pages/CreateVacationPage";
 import store from './store';
 import { useSelector } from 'react-redux';
 
@@ -25,8 +25,6 @@ const MainPapper = styled(Paper)(() => ({
 
 const PrivateRoute = ({ element }) => {
   const user = useSelector((state) => state.user);
-  console.log(user)
-
   return user ? <Navigate to={`/home/${user.id}`} replace /> : element;
 };
 
@@ -37,8 +35,8 @@ const AppRoutes = () => (
       <Header />
       <MainPapper square={false}>
         <Routes>
-          <Route path="/schedule" element={<CalendarPage />} />
           <Route path="/employees" element={<EmployeeTable />} />
+          <Route path="/create-vacation" element={<CreateVacationPage />} />
           <Route path="/home/:id" element={<ProfilePage />} />
         </Routes>
       </MainPapper>
