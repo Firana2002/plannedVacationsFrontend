@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { getEmployees, getVacationTypes, createVacationRequest } from '@/api/plannedVacations';
+import { getVacationTypes, createVacationRequest } from '@/api/plannedVacations';
 
 const VacationRequestForm = () => {
-    const [employeeId, setEmployeeId] = useState(0);
+    const [employeeId, setEmployeeId] = useState(1);
     const [loading, setLoading] = useState(true)
     const [vacationTypeId, setVacationTypeId] = useState(0);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [comment, setComment] = useState('');
-    const [employees, setEmployees] = useState([]);
     const [vacationTypes, setVacationTypes] = useState([]);
 
     useEffect(() => {

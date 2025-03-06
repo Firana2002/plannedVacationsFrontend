@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import ProfilePage from "./pages/ProfilePage";
 import EmployeeTable from "@/components/TeamOverviewView";
 import CreateVacationPage from "@/pages/CreateVacationPage";
+import PlannedVacationsPage from "@/pages/PlannedVacationsPage";
 import store from './store';
 import { useSelector } from 'react-redux';
 
@@ -37,6 +38,7 @@ const AppRoutes = () => (
         <Routes>
           <Route path="/employees" element={<EmployeeTable />} />
           <Route path="/create-vacation" element={<CreateVacationPage />} />
+          <Route path="/planned-vacation" element={<PlannedVacationsPage />} />
           <Route path="/home/:id" element={<ProfilePage />} />
         </Routes>
       </MainPapper>
