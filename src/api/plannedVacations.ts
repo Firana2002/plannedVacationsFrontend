@@ -13,6 +13,6 @@ export const getVacationTypes = async () => {
 };
 
 export const createVacationRequest = async (vacationRequest) => {
-    const response = await axios.post(`${API_URL}/vacationRequests`, vacationRequest);
+    const response = await axios.post(`${API_URL}/PlannedVacations`, vacationRequest);
     return response.data;
 };
