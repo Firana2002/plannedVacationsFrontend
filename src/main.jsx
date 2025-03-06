@@ -9,8 +9,8 @@ import RegisterPage from '@/pages/RegisterPage';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import ProfilePage from "./pages/ProfilePage";
-import EmployeeTable from "./components/TeamOverviewView";
-import CreateVacationPage from "./pages/CreateVacationPage";
+import EmployeeTable from "@/components/TeamOverviewView";
+import CreateVacationPage from "@/pages/CreateVacationPage";
 import store from './store';
 import { useSelector } from 'react-redux';
 
