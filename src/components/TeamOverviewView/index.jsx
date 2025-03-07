@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import SearchInput from '../SearchInput';
 import { getEmployees } from '@/api/employees';
 
 const EmployeeTable = () => {
@@ -20,31 +18,28 @@ const EmployeeTable = () => {
   }, []);
 
   return (
-    <>
-      <SearchInput />
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Сотрудник, должность</TableCell>
-              <TableCell>Отдел</TableCell>
-              <TableCell align="center">Дней Накоплено</TableCell>
-              <TableCell>Роль</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="py-2 px-4 border-b">Сотрудник, должность</th>
+              <th className="py-2 px-4 border-b">Отдел</th>
+              <th className="py-2 px-4 border-b text-center">Дней Накоплено</th>
+              <th className="py-2 px-4 border-b">Роль</th>
+            </tr>
+          </thead>
+          <tbody>
             {employees.map((employee, index) => (
-              <TableRow key={index}>
-                <TableCell>{employee.nameEmployees} ({employee.position})</TableCell>
-                <TableCell>{employee.department.nameDepartments}</TableCell>
-                {/* <TableCell align="center">{employee.daysAccumulated}</TableCell> */}
-                {/* <TableCell>{employee.role}</TableCell> */}
-              </TableRow>
+              <tr key={index} className="hover:bg-gray-100">
+                <td className="py-2 px-4 border-b">{employee.nameEmployees} ({employee.position})</td>
+                <td className="py-2 px-4 border-b">{employee.department.nameDepartments}</td>
+                {/* <td className="py-2 px-4 border-b text-center">{employee.daysAccumulated}</td> */}
+                {/* <td className="py-2 px-4 border-b">{employee.role}</td> */}
+              </tr>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+          </tbody>
+        </table>
+      </div>
   );
 };
 

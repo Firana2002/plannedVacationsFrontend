@@ -1,5 +1,4 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import './style.css';
 
 function VacationScheduleTable() {
@@ -10,32 +9,32 @@ function VacationScheduleTable() {
   ];
 
   return (
-    <TableContainer component={Paper} className="vacation-table-container">
-      <Table className="vacation-table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell className="vacation-days-heading">Дни отпуска</TableCell>
-            <TableCell className="vacation-days-heading">Кол в дн</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+    <div className="overflow-x-auto vacation-table-container">
+      <table className="min-w-full bg-white border border-gray-300 vacation-table">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="py-2 px-4 border-b" />
+            <th className="py-2 px-4 border-b vacation-days-heading">Дни отпуска</th>
+            <th className="py-2 px-4 border-b vacation-days-heading">Кол в дн</th>
+          </tr>
+        </thead>
+        <tbody>
           {vacationData.map((vacation, index) => (
-            <TableRow key={index} className="vacation-details-row">
-              <TableCell className="vacation-details-row1">
+            <tr key={index} className="hover:bg-gray-100 vacation-details-row">
+              <td className="py-2 px-4 border-b vacation-details-row1">
                 <p className="vacation-part-label-style">{vacation.part}</p>
-              </TableCell>
-              <TableCell className="vacation-details-row1">
+              </td>
+              <td className="py-2 px-4 border-b vacation-details-row1">
                 <p className="vacation-info-style">{vacation.dates}</p>
-              </TableCell>
-              <TableCell className="vacation-details-row1">
+              </td>
+              <td className="py-2 px-4 border-b vacation-details-row1">
                 <p className="vacation-info-style">{vacation.days}</p>
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        </tbody>
+      </table>
+    </div>
   );
 }
 

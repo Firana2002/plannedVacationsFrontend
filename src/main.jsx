@@ -6,8 +6,6 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
 import ProfilePage from "./pages/ProfilePage";
 import EmployeeTable from "@/components/TeamOverviewView";
 import CreateVacationPage from "@/pages/CreateVacationPage";
@@ -18,12 +16,6 @@ import { useSelector } from 'react-redux';
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("root element not found");
 
-const MainPapper = styled(Paper)(() => ({
-  padding: 58,
-  borderRadius: 20,
-  marginTop: 20,
-}));
-
 const PrivateRoute = ({ element }) => {
   const user = useSelector((state) => state.user);
   return user ? <Navigate to={`/home/${user.id}`} replace /> : element;
@@ -32,16 +24,16 @@ const PrivateRoute = ({ element }) => {
 const AppRoutes = () => (
   <>
     <Sidebar />
-    <div className="app-container">
+    <div className="app-container p-6">
       <Header />
-      <MainPapper square={false}>
+      <div className="bg-white rounded-lg shadow-md p-8 mt-5">
         <Routes>
           <Route path="/employees" element={<EmployeeTable />} />
           <Route path="/create-vacation" element={<CreateVacationPage />} />
           <Route path="/planned-vacation" element={<PlannedVacationsPage />} />
           <Route path="/home/:id" element={<ProfilePage />} />
         </Routes>
-      </MainPapper>
+      </div>
     </div>
   </>
 );

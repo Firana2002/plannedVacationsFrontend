@@ -10,9 +10,6 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@mui/base": "^5.0.0-beta.3",
-    "@mui/material": "^6.1.6",
-    "@mui/x-date-pickers": "^7.22.2",
     "@vitejs/plugin-react": "^4.2.1",
     "axios": "^1.7.8",
     "dayjs": "^1.11.13",
