@@ -46,7 +46,6 @@ const App = () => {
         dispatch(fetchUserDataStart());
         try {
             const response = await getEmployee(userId);
-            console.log(response)
             if (response.status !== 200) {
                 throw new Error('Failed to fetch user data');
             }

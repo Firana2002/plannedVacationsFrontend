@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { getVacationTypes, createVacationRequest } from '@/api/plannedVacations';
+import { useSelector } from 'react-redux';
 
 const VacationRequestForm = () => {
-    const [employeeId, setEmployeeId] = useState(1);
+    const [employeeId, setEmployeeId] = useState(null);
     const [loading, setLoading] = useState(true)
     const [vacationTypeId, setVacationTypeId] = useState(0);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [comment, setComment] = useState('');
     const [vacationTypes, setVacationTypes] = useState([]);
+    const { userData } = useSelector((state) => state.user);
+    
+    useEffect(() => {
+        if (userData && userData.employeeId) {
+            setEmployeeId(userData.employeeId);
+        }
+    }, [userData]);
 
     useEffect(() => {
         const fetchData = async () => {
             const vacationTypesData = await getVacationTypes();
-            console.log(vacationTypesData.$values)
             setVacationTypes(vacationTypesData.$values);
         };
         fetchData();
