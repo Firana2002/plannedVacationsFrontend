@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import ErrorMessage from '@/components/ErrorMessage';
 import { loginUser } from '@/api/Auth';
+import { setUser } from '@/redux/userSlice';
+import { jwtDecode } from 'jwt-decode'
 
 const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [role, setRole] = useState('сотрудник');
-    const [employeeId, setEmployeeId] = useState(0);
-    const token = localStorage.getItem('token');
-
-    useEffect(() => {
-        if (token) {
-            navigate('/home');
-        }
-    }, [token, navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
 
         try {
-            const response = await loginUser(email, password, role, employeeId);
-            localStorage.setItem('token', response);
+            const response = await loginUser(email, password);
+            const decodedToken = jwtDecode(response);
+            dispatch(setUser({ token: response, roles: decodedToken.role }));
+
             navigate('/home');
         } catch (err) {
+            console.error(err)
             setError('Ошибка входа. Проверьте свои учетные данные.');
         }
     };
