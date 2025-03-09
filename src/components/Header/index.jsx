@@ -9,7 +9,7 @@ const Header = () => {
     const getPageTitle = () => {
         switch (location.pathname) {
             case '/':
-                return 'Мой профиль';
+                return 'Главная';
             case '/employees':
                 return 'Сотрудники';
             case '/schedule':

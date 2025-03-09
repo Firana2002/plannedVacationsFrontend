@@ -9,7 +9,7 @@ export const getEmployees = async () => {
 
 export const getEmployee = async (id) => {
     const response = await axios.get(`${API_URL}/${id}`);
-    return response.data;
+    return response;
 };
 
 export const createEmployee = async (employee) => {

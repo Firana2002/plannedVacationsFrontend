@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ErrorMessage from '@/components/ErrorMessage';
 import { loginUser } from '@/api/Auth';
-import { setUser } from '@/redux/userSlice';
-import { jwtDecode } from 'jwt-decode'
+import { setUser } from '@/redux/authSlice';
+import { Navigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -19,8 +20,7 @@ const Login = () => {
 
         try {
             const response = await loginUser(email, password);
-            const decodedToken = jwtDecode(response);
-            dispatch(setUser({ token: response, roles: decodedToken.role }));
+            dispatch(setUser({ token: response }));
 
             navigate('/home');
         } catch (err) {
@@ -28,6 +28,11 @@ const Login = () => {
             setError('Ошибка входа. Проверьте свои учетные данные.');
         }
     };
+
+    const token = Cookies.get('token');
+    if(token) {
+        return <Navigate to={`/home`} />
+    }
 
     return (
         <div className="max-w-md mx-auto mt-10">
