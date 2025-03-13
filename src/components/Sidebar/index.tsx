@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./style.css";
+import { useSelector } from 'react-redux';
 
 function Sidebar() {
+    const { userData } = useSelector((state) => state.user);
   const menuItems = [
     { src: "/assets/grafic.svg", alt: "График отпусков", text: "График отпусков", path: "/schedule" },
     { src: "/assets/users.svg", alt: "Сотрудники", text: "Сотрудники", path: "/employees" },
-    { src: "/assets/profile.svg", alt: "Мой профиль", text: "Мой профиль", path: "/" },
+    { src: "/assets/profile.svg", alt: "Мой профиль", text: "Мой профиль", path: `/home/{}` },
   ];
 
   return (

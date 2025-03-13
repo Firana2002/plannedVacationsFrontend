@@ -20,7 +20,8 @@ export default function BasicTabs() {
   return (
     <div className="w-full">
       <div className="border-b border-gray-300">
-        {userData.firstName}
+        Имя: {userData.firstName}
+        Фамилия: {userData.lastName}
       </div>
     </div>
   );

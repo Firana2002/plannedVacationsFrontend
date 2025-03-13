@@ -49,9 +49,9 @@ const PlannedVacationsTable = () => {
                     {vacations.map(vacation => (
                         <tr key={vacation.plannedVacationId}>
                             <td>{vacation.plannedVacationId}</td>
-                            <td>{vacation.employee.name}</td> {/* Предполагается, что у Employee есть поле name */}
-                            <td>{vacation.vacationType.name}</td> {/* Предполагается, что у VacationType есть поле name */}
-                            <td>{vacation.vacationStatus.name}</td> {/* Предполагается, что у VacationStatus есть поле name */}
+                            <td>{vacation.employee.firstName}</td>
+                            <td>{vacation.vacationType.name}</td>
+                            <td>{vacation.vacationStatus.name}</td>
                             <td>{vacation.startDate}</td>
                             <td>{vacation.endDate}</td>
                             <td>{vacation.comment}</td>

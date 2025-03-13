@@ -22,11 +22,11 @@ const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("root element not found");
 
 const ProtectedRoute = ({ element, isPublic = false }) => {
-  const token = Cookies.get('token');
+  // const token = Cookies.get('token');
 
-  if (!token) {
-    return <Navigate to={`/login`} />
-  }
+  // if (!token) {
+  //   return <Navigate to={`/login`} />
+  // }
 
   return element;
 };
