@@ -21,7 +21,7 @@ const VacationRequestForm = () => {
     useEffect(() => {
         const fetchData = async () => {
             const vacationTypesData = await getVacationTypes();
-            setVacationTypes(vacationTypesData.$values);
+            setVacationTypes(vacationTypesData);
         };
         fetchData();
         setLoading(false)

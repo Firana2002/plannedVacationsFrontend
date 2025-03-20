@@ -10,7 +10,7 @@ const PlannedVacationsTable = () => {
         const fetchData = async () => {
             const vacationTypesData = await getPlannedVacations();
             console.log(vacationTypesData)
-            setVacations(vacationTypesData.$values);
+            setVacations(vacationTypesData);
         };
         fetchData();
         setLoading(false)
