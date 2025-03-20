@@ -9,8 +9,7 @@ const EmployeesPage = () => {
   useEffect(() => {
     const fetchData = async () => {
         const vacationTypesData = await getEmployees();
-        console.log(vacationTypesData)
-        setEmployees(vacationTypesData.$values);
+        setEmployees(vacationTypesData);
     };
     fetchData();
 }, []);
@@ -28,7 +27,6 @@ const EmployeesPage = () => {
   };
 
   return (
-    <div className="app-container">
       <div className="main-content">
         <div className="dashboard">
           <div className="content-area">
@@ -70,7 +68,6 @@ const EmployeesPage = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

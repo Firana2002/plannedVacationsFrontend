@@ -11,8 +11,7 @@ export default function BasicTabs() {
   useEffect(() => {
     const fetchData = async () => {
         const vacationTypesData = await getMyPlannedVacations();
-        console.log(vacationTypesData)
-        setVacations(vacationTypesData.$values);
+        setVacations(vacationTypesData);
     };
     fetchData();
 }, []);
@@ -39,6 +38,29 @@ export default function BasicTabs() {
           <p><strong>Должность:</strong> {userData.position.name}</p>
           <p><strong>Отдел:</strong> {userData.department.name}</p>
         </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>Начало</th>
+              <th>Окончание</th>
+              <th>Тип отпуска</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            {vacations.map((app, index) => (
+              <tr key={index}>
+                <td>{index}</td>
+                <td>{app.startDate}</td>
+                <td>{app.endDate}</td>
+                <td>{app.vacationType.name}</td>
+                <td>{app.vacationStatus.name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
   );
 }

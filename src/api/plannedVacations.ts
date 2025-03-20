@@ -22,3 +22,10 @@ export const getMyPlannedVacations = async (id) => {
     return response.data;
 };
 
+export const updateVacationStatus = async (id, vacationStatusId, comment) => {
+    const response = await axios.put(`${API_URL}/PlannedVacation/${id}/status`, {
+        vacationStatusId,
+        comment
+    });
+    return response.data;
+};
