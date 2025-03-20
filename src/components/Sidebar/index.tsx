@@ -9,6 +9,7 @@ function Sidebar() {
     { src: "/assets/grafic.svg", alt: "График отпусков", text: "График отпусков", path: "/schedule" },
     { src: "/assets/users.svg", alt: "Сотрудники", text: "Сотрудники", path: "/employees" },
     { src: "/assets/profile.svg", alt: "Мой профиль", text: "Мой профиль", path: `/home/{}` },
+    { src: "/assets/profile.svg", alt: "Подать заявку", text: "Подать заявку", path: `/create-vacation` },
   ];
 
   return (

@@ -1,0 +1,74 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+  }
+  
+  .main-content {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+  }
+  
+  
+.dashboard {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+.add-vacation-container h1 {
+    color: #0a6b5e;
+    margin-bottom: 20px;
+}
+  
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+  
+.form label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 14px;
+    color: #333;
+}
+  
+.form input,
+.form select,
+.form textarea {
+    padding: 8px;
+    border: 1px solid #858282;
+    border-radius: 4px;
+    font-size: 14px;
+}
+  
+.form input[type="date"] {
+    padding: 6px;
+}
+  
+.form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+  
+.form button {
+    align-self: center;
+    background-color: #0a6b5e;
+    color: #fff; /* Изменено на белый для лучшей видимости */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+  
+.form button:hover {
+    background-color: #084d45;
+}

@@ -57,9 +57,6 @@ const VacationRequestForm = () => {
         <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-white rounded shadow-md">
             <h2 className="text-lg font-bold mb-4">Заявка на отпуск</h2>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Сотрудник</label>
-            </div>
-            <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Тип отпуска</label>
                 <select
                     value={vacationTypeId}

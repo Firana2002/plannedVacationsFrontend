@@ -9,6 +9,7 @@ import {
   CreateVacationPage,
   PlannedVacationsPage,
   ProfilePage,
+  EmployeesPage,
 } from '@/pages';
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
@@ -18,18 +19,10 @@ import { fetchUserDataStart, fetchUserDataSuccess, fetchUserDataFailure } from '
 import { getEmployee } from '@/api/employees';
 
 
+console.log('11')
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("root element not found");
 
-const ProtectedRoute = ({ element, isPublic = false }) => {
-  // const token = Cookies.get('token');
-
-  // if (!token) {
-  //   return <Navigate to={`/login`} />
-  // }
-
-  return element;
-};
 
 const App = () => {
   const dispatch = useDispatch();
@@ -60,13 +53,12 @@ const App = () => {
       <Sidebar />
       <div className="app-container p-6">
         <Header />
-        <div className="bg-white rounded-lg shadow-md p-8 mt-5">
           <Routes>
-            <Route path="/create-vacation" element={<ProtectedRoute element={<CreateVacationPage />} />} />
-            <Route path="/planned-vacation" element={<ProtectedRoute element={<PlannedVacationsPage />} />} />
-            <Route path="/home/:id" element={<ProtectedRoute element={<ProfilePage />} />} />
+            <Route path="/create-vacation" element={<CreateVacationPage />} />
+            <Route path="/planned-vacation" element={<PlannedVacationsPage />} />
+            <Route path="/home/:id" element={<ProfilePage />} />
+            <Route path="/employees" element={<EmployeesPage />} />
           </Routes>
-        </div>
       </div>
     </>
   );
@@ -78,10 +70,10 @@ root.render(
     <Router>
       <Routes>
         {/* Публичный маршрут (только для неавторизованных) */}
-        <Route path="/login" element={<ProtectedRoute element={<LoginPage />} isPublic />} />
+        <Route path="/login" element={<LoginPage />} />
 
         {/* Приватные маршруты (только для авторизованных) */}
-        <Route path="/*" element={<ProtectedRoute element={<App />} />} />
+        <Route path="/*" element={<App />}/>
 
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
