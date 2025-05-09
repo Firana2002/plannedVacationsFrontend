@@ -1,74 +1,270 @@
-.app-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-  }
-  
-  .main-content {
-    display: flex;
-    flex: 1;
-    padding: 20px;
-  }
-  
-  
-.dashboard {
-    flex: 1;
-    background-color: #fff;
+.vacation-form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 25px;
+    background: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-.add-vacation-container h1 {
-    color: #0a6b5e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.form-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.form-group {
     margin-bottom: 20px;
 }
-  
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-  
-.form label {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
     font-size: 14px;
-    color: #333;
+    color: #555;
+    font-weight: 500;
 }
-  
-.form input,
-.form select,
-.form textarea {
-    padding: 8px;
-    border: 1px solid #858282;
+
+.form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    box-sizing: border-box;
 }
-  
-.form input[type="date"] {
-    padding: 6px;
+
+.form-input:focus {
+    border-color: #3e4042;
+    outline: none;
 }
-  
-.form textarea {
+
+.days-input {
+    background-color: #f5f5f5;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    min-height: 80px;
     resize: vertical;
-    min-height: 100px;
+    box-sizing: border-box;
 }
-  
-.form button {
-    align-self: center;
-    background-color: #0a6b5e;
-    color: #fff; /* Изменено на белый для лучшей видимости */
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.form-checkbox input {
+    margin-right: 10px;
+}
+
+.form-checkbox label {
+    font-size: 14px;
+    color: #555;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1f5045;
+    color: white;
     border: none;
-    padding: 10px 20px;
     border-radius: 4px;
-    cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.1s;
 }
+
+.submit-button:hover {
+    background-color: #14967c;
+}
+
+.modal5 {
+    position: fixed;
+    z-index: 999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; /* Фиксированная ширина */
+    height: auto; /* Автоматическая высота */
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content5 {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.close5 {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close5:hover,
+.close5:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.employee-info {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.info-group:last-child {
+    margin-bottom: 0;
+}
+
+.info-group label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.info-value {
+    font-size: 1.1em;
+    color: #1b1b1b;
+    font-weight: 500;
+}
+
+.modal-content5.error {
+    background-color: #fff;
+    border: 2px solid #ff4444;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    width: 90%;
+}
+
+.modal-content5.error h3 {
+    color: #ff4444;
+    margin-bottom: 15px;
+}
+
+.error-details {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #fff5f5;
+    border-radius: 4px;
+}
+
+.error-details p {
+    margin: 5px 0;
+    color: #666;
+}
+
+
+/* Темная тема для формы */
+body.dark-theme .vacation-form {
+    background-color: #2d2d2d;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
   
-.form button:hover {
-    background-color: #084d45;
-}
+  body.dark-theme .form-title {
+    color: #b9c5c4;
+  }
+  
+  body.dark-theme .form-group label {
+    color: #d0d0d0;
+  }
+  
+  body.dark-theme .form-input,
+  body.dark-theme .form-textarea {
+    background-color: #333;
+    border-color: #444;
+    color: #fff;
+  }
+  
+  body.dark-theme .form-input:focus {
+    border-color: #387068;
+  }
+  
+  body.dark-theme .form-checkbox label {
+    color: #d0d0d0;
+  }
+  
+  body.dark-theme .submit-button {
+    background-color: #1f534b;
+  }
+  
+  body.dark-theme .submit-button:hover {
+    background-color: #2e5854;
+  }
+  
+  body.dark-theme .employee-info {
+    background-color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  body.dark-theme .info-group label {
+    color: #b3bdbc;
+  }
+  
+  body.dark-theme .info-value {
+    color: #c7dad7;
+  }
+  
+  /* Модальные окна в темной теме */
+  body.dark-theme .modal-content5 {
+    background-color: #333;
+    border-color: #444;
+    color: #e0e0e0;
+  }
+  
+  body.dark-theme .modal-content5.error {
+    border-color: #c53030;
+    background-color: #2d2d2d;
+  }
+  
+  body.dark-theme .modal-content5.error h3 {
+    color: #ff6b6b;
+  }
+  
+  body.dark-theme .error-details {
+    background-color: #3a2e2e;
+  }
+  
+  body.dark-theme .error-details p {
+    color: #ffb3b3;
+  }
+  
+  body.dark-theme .close5 {
+    color: #888;
+  }
+  
+  body.dark-theme .close5:hover,
+  body.dark-theme .close5:focus {
+    color: #fff;
+  }
+  
+  /* Кастомизация чекбокса */
+  body.dark-theme input[type="checkbox"] {
+    accent-color: #24554e;
+  }

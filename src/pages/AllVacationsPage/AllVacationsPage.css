@@ -1,0 +1,419 @@
+/* AllVacationsPage.css */
+.vacation-requests-container {
+  width: 96%;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+}
+
+.vacation-requests-section {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.vacation-requests-filter, 
+.vacation-requests-search, 
+.vacation-requests-sort {
+  margin-bottom: 20px;
+}
+
+.vacation-requests-filter h2, 
+.vacation-requests-search h2, 
+.vacation-requests-sort h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.vacation-filter-tabs {
+  display: flex;
+  margin-bottom: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vacation-tab-btn {
+  background: #e0e0e0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.vacation-tab-btn.active {
+  background: #00514E;
+  color: white;
+}
+
+.vacation-tab-btn:hover:not(.active) {
+  background: #d0d0d0;
+}
+
+.vacation-requests-search input {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.vacation-sort-options {
+  display: flex;
+  gap: 10px;
+}
+
+.vacation-sort-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.vacation-requests-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.vacation-requests-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.vacation-requests-table th, 
+.vacation-requests-table td {
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+.vacation-requests-table th {
+  background-color: #00514E;
+  color: white;
+  position: sticky;
+  top: 0;
+  font-weight: 500;
+}
+
+.vacation-requests-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.vacation-requests-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.vacation-status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.vacation-status-badge.approved {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.vacation-status-badge.rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.vacation-status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.vacation-view-btn {
+  background: #00514E;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.8rem;
+}
+
+.vacation-view-btn:hover:not(:disabled) {
+  background: #003d3a;
+}
+
+.vacation-view-btn:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Модальное окно */
+.vacation-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.vacation-modal {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  animation: vacation-modal-fadeIn 0.3s ease;
+}
+
+@keyframes vacation-modal-fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.vacation-modal-content {
+  padding: 20px;
+}
+
+.vacation-modal h2 {
+  margin-top: 0;
+  color: #00514E;
+  font-size: 1.3rem;
+}
+
+.vacation-modal-details {
+  margin-bottom: 20px;
+}
+
+.vacation-modal-details p {
+  margin: 10px 0;
+  font-size: 0.95rem;
+}
+
+.vacation-modal-details strong {
+  font-weight: 600;
+}
+
+.vacation-modal-comment {
+  margin-top: 20px;
+}
+
+.vacation-modal-comment label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.vacation-modal-comment textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.vacation-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.vacation-modal-approve-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vacation-modal-reject-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vacation-modal-close-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vacation-modal-approve-btn:hover {
+  background: #218838;
+}
+
+.vacation-modal-reject-btn:hover {
+  background: #c82333;
+}
+
+.vacation-modal-close-btn:hover {
+  background: #5a6268;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .vacation-requests-container {
+    width: 98%;
+    padding: 10px;
+  }
+  
+  .vacation-filter-tabs {
+    flex-direction: column;
+  }
+  
+  .vacation-sort-options {
+    flex-direction: column;
+  }
+  
+  .vacation-requests-table th, 
+  .vacation-requests-table td {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+  
+  .vacation-modal-actions {
+    flex-direction: column;
+  }
+  
+  .vacation-modal-actions button {
+    width: 100%;
+  }
+}
+
+
+/* Темная тема для AllVacationsPage */
+
+body.dark-theme .vacation-requests-section {
+  background-color: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+body.dark-theme .vacation-requests-filter h2,
+body.dark-theme .vacation-requests-search h2,
+body.dark-theme .vacation-requests-sort h2 {
+  color: #88c2bc;
+}
+
+body.dark-theme .vacation-tab-btn {
+  background: #444;
+  color: #d0d0d0;
+}
+
+body.dark-theme .vacation-tab-btn.active {
+  background: #1f534b;
+  color: #fff;
+}
+
+body.dark-theme .vacation-tab-btn:hover:not(.active) {
+  background: #444;
+}
+
+body.dark-theme .vacation-requests-search input {
+  background: #333;
+  border-color: #444;
+  color: #fff;
+}
+
+body.dark-theme .vacation-sort-select {
+  background: #333;
+  border-color: #444;
+  color: #fff;
+}
+
+body.dark-theme .vacation-requests-table {
+  background-color: #2d2d2d;
+}
+
+body.dark-theme .vacation-requests-table th {
+  background-color: #1f534b;
+  color: #fff;
+}
+
+body.dark-theme .vacation-requests-table td {
+  border-color: #444;
+  color: #d0d0d0;
+}
+
+body.dark-theme .vacation-requests-table tr:nth-child(even) {
+  background-color: #383838;
+}
+
+body.dark-theme .vacation-requests-table tr:hover {
+  background-color: rgba(255,255,255,0.05);
+}
+
+body.dark-theme .vacation-status-badge.approved {
+  background-color: #2e5854;
+  color: #b3e5b3;
+}
+
+body.dark-theme .vacation-status-badge.rejected {
+  background-color: #5a2e2e;
+  color: #ffb3b3;
+}
+
+body.dark-theme .vacation-status-badge.pending {
+  background-color: #4a4533;
+  color: #ffe08a;
+}
+
+body.dark-theme .vacation-view-btn {
+  background: #1f534b;
+  color: #fff;
+}
+
+body.dark-theme .vacation-view-btn:hover:not(:disabled) {
+  background: #2e5854;
+}
+
+body.dark-theme .vacation-modal {
+  background: #2d2d2d;
+  color: #e0e0e0;
+}
+
+body.dark-theme .vacation-modal h2 {
+  color: #88c2bc;
+}
+
+body.dark-theme .vacation-modal-comment textarea {
+  background: #333;
+  border-color: #444;
+  color: #fff;
+}
+
+body.dark-theme .vacation-modal-approve-btn {
+  background: #2e5854;
+}
+
+body.dark-theme .vacation-modal-reject-btn {
+  background: #5a2e2e;
+}
+
+body.dark-theme .vacation-modal-close-btn {
+  background: #444;
+}

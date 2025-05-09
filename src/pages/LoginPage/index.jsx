@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import ErrorMessage from '@/components/ErrorMessage';
 import { loginUser } from '@/api/Auth';
 import { setUser } from '@/redux/authSlice';
-import { Navigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import './LoginWindow.css';
@@ -23,47 +22,44 @@ const Login = () => {
         try {
             const response = await loginUser(email, password);
             dispatch(setUser({ token: response }));
-
-            navigate('/home');
+            
+            // Перенаправляем на страницу сотрудников после успешного входа
+            navigate('/vacation-days');
         } catch (err) {
-            console.error(err)
+            console.error(err);
             setError('Ошибка входа. Проверьте свои учетные данные.');
         }
     };
 
-    const token = Cookies.get('token');
-    if(token) {
-        return <Navigate to={`/home`} />
-    }
-
-  return (
-    <div className="login-window">
-      <div className="login-form">
-        <img src="/images/image6.png" alt="Логотип" className="login-image" />
-        <h2 className="login-title">Вход в систему</h2>
-        <div className="input-container">
-            <input
-                type="email"
-                value={email}
-                placeholder="Логин"
-                onChange={(e) => setEmail(e.target.value)}
-                 className="login-input"
-                required
-            />
-            <input
-                type="password"
-                placeholder="Пароль"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="login-input"
-                required
-            />
-          <button className="login-button" onClick={handleLogin}>Войти</button>
+    return (
+        <div className="login-window">
+            <div className="login-form">
+                <img src="/images/image6.png" alt="Логотип" className="login-image" />
+                <h2 className="login-title">Вход в систему</h2>
+                {error && <ErrorMessage message={error} />}
+                <div className="input-container">
+                    <input
+                        type="email"
+                        value={email}
+                        placeholder="Логин"
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="login-input"
+                        required
+                    />
+                    <input
+                        type="password"
+                        placeholder="Пароль"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="login-input"
+                        required
+                    />
+                    <button className="login-button" onClick={handleLogin}>Войти</button>
+                </div>
+                <a href="#" className="forgot-password">Не удаётся войти?</a>
+            </div>
         </div>
-        <a href="#" className="forgot-password">Не удаётся войти?</a>
-      </div>
-    </div>
-  );
+    );
 };
 
 axios.interceptors.request.use((config) => {

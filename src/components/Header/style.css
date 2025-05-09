@@ -1,23 +1,406 @@
-.header {
-    background-color: white;
-    text-align: center;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+/* Основные стили шапки */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fffefe;
+  color: #00514E;
+  padding: 10px 20px;
+  position: relative;
+  z-index: 100;
+  border-radius: 2px;
+  border: 1px solid #d1cccc;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  height: 70px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.navbar-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.app-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #00514E;
 }
 
 .page-title {
-    margin: 0;
-    flex-grow: 1;
-    text-align: center;
-    color: #656161;
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #00514E;
 }
 
-.header-icons {
-    display: flex;
-    gap: 15px;
+.navbar-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn:hover {
+  background-color: rgba(0, 81, 78, 0.1);
+}
+
+.action-btn img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff4d4f;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Модальные окна */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(24, 13, 13, 0.5);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  margin-top: 70px;
+  margin-right: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #00514E;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #7f8c8d;
+  line-height: 1;
+}
+
+/* Модальное окно */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(24, 13, 13, 0.5);
+  display: flex;
+  justify-content: flex-end; /* Окно справа */
+  align-items: flex-start; /* Выравнивание по верхнему краю */
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  max-width: 400px;
+  width: 100%;
+  margin-top: 70px; /* Отступ сверху, чтобы модальное окно было под шапкой */
+  margin-right: 20px; /* Отступ справа */
+}
+
+.modal-title {
+  text-align: center;
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  color: #00514E;
+}
+
+.notifications-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.notification-item:hover {
+  background-color: #e0e0e0;
+}
+
+.notification-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-message {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+}
+
+.notification-details {
+  font-size: 12px;
+  color: #666;
+  margin: 5px 0 0 0;
+}
+
+.notification-details span {
+  display: block;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.modal-close-btn {
+  align-content: center;
+  background-color: #0a6b5e;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close-btn:hover {
+  background-color: #084d45;
+}
+
+/* Стили для профиля */
+
+
+.user-info {
+  width: 100%;
+  padding: 10px;
+}
+
+.info-row {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+
+}
+
+.info-row .label {
+  flex: 0 0 100px;
+  font-weight: 500;
+  color: #00514e;
+  font-size: 14px;
+  padding-right: 15px;
+}
+
+.info-row .value {
+  flex: 1;
+  color: #333;
+  font-size: 14px;
+  word-break: break-word;
+}
+/* Кнопки */
+.btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn.secondary {
+  background-color: #0a6b5e;
+  color: white;
+}
+
+.btn.secondary:hover {
+  background-color: #084d45;
+}
+
+.btn.primary {
+  background-color: #1890ff;
+  color: white;
+}
+
+.btn.primary:hover {
+  background-color: #096dd9;
+}
+
+.btn.danger {
+  background-color: #254b48;
+  color: white;
+}
+
+.btn.danger:hover {
+  background-color: #1a5a52;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 15px;
+  }
+  
+  .app-name {
+    font-size: 18px;
+  }
+  
+  .page-title {
+    font-size: 18px;
+    margin: 0 10px;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin-right: 10px;
+  }
+}
+
+/* Темная тема для шапки */
+body.dark-theme .navbar {
+  background-color: #2d2d2d;
+  border-color: #404040;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .app-name,
+body.dark-theme .page-title {
+  color: #e0e0e0;
+}
+
+body.dark-theme .action-btn:hover {
+  background-color: rgba(224, 36, 36, 0.1);
+}
+
+/* Темная тема для модальных окон */
+body.dark-theme .modal-content {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+body.dark-theme .modal-header {
+  border-bottom-color: #444;
+}
+
+body.dark-theme .close-btn {
+  color: #a0a0a0;
+}
+
+
+body.dark-theme .info-row {
+  border-color: #444;
+}
+
+body.dark-theme .info-row .label {
+  color: #88c2bc;
+}
+
+body.dark-theme .info-row .value {
+  color: #d0d0d0;
+}
+
+body.dark-theme .modal-body > p {
+  color: #888;
+}
+body.dark-theme .btn.danger {
+  background-color: #3a6d69;
+}
+
+body.dark-theme .btn.danger:hover {
+  background-color: #2e5854;
+}
+
+/* Иконки в темной теме */
+body.dark-theme .action-btn img {
+  filter: invert(20%);
 }

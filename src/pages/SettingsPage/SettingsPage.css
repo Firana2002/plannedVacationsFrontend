@@ -1,0 +1,80 @@
+.vacation-requests-container {
+    width: 96%;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+    background: inherit; /* Добавляем наследование фона */
+  }
+  
+  .vacation-requests-section {
+    background: inherit; /* Наследуем фон от родителя */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    border: none; /* Убираем границу если есть */
+  }
+  
+.settings-page {
+    display: flex;
+    align-items: center; /* Вертикальное выравнивание */
+    justify-content: space-between; /* Разделяет элементы по краям */
+}
+
+.theme-label {
+    margin-right: 20px; /* Отступ между текстом и переключателем */
+}
+
+.toggle-switch {
+    /* Убираем margin-left: auto; */
+    position: relative; /* Для позиционирования переключателя */
+    display: flex; /* Используем flex для переключателя */
+}
+
+.toggle-switch input {
+    opacity: 0; /* Скрыть стандартный чекбокс */
+    position: absolute; /* Позиционирование для переключателя */
+}
+
+.slider {
+    position: relative; /* Изменение позиционирования */
+    height: 20px;
+    width: 50px;
+    background-color: #ccc;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 0;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+input:checked + .slider {
+    background-color: #1f534b; /* Цвет переключателя при включении */
+}
+
+input:checked + .slider:before {
+    transform: translateX(30px); /* Движение переключателя при включении */
+}
+
+.dark-theme {
+    background-color: #444; /* Цвет фона для темной темы */
+    color: #fff; /* Цвет текста для темной темы */
+}
+
+body.dark-theme .vacation-requests-container{
+    background-color: #444;
+}
+body.dark-theme .vacation-requests-section {
+  background-color: #333;
+
+}
+
+body.dark-theme .settings-page {
+  background-color: transparent; /* Делаем прозрачным внутренний контейнер */
+}

@@ -8,9 +8,13 @@ export const getEmployees = async () => {
 };
 
 export const getEmployee = async (id) => {
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await axios.get(`${API_URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     return response;
-};
+  };
 
 export const createEmployee = async (employee) => {
     const response = await axios.post(API_URL, employee);

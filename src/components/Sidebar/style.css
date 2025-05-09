@@ -1,55 +1,95 @@
-.main-content-container {
-  width: 33.33%;
-  padding: 0 26px;
-  height: 100vh;
-  position: fixed;
-  border-right: 5px solid #00514e;
-}
 
-.horizontal-flex-container {
-  display: flex;
-  align-items: center;
-  border-bottom: 3px solid #00514e;
-  padding: 15px 0;
-}
-
-.v-planner-title {
-  margin: 0 0 0 3px;
-  font: 400 22px "Lexend Tera", sans-serif;
-  color: #00514e;
-  letter-spacing: 6.6px;
-}
-
-.main-content-container ul li {
-  margin: 20px 0;
+.sidebar {
+  width: 200px;
+  position: sticky; /* Фиксируем сайдбар */
+  top: 100px; /* Прилипает ниже шапки */
+  background: #fff;
   padding: 15px;
+  border-right: 3px solid #266e6e;
+  box-shadow: 5px 4px 16px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(10, 66, 54, 0.08);
+  overflow-y: auto; /* Добавляем прокрутку, если контент сайдбара превышает высоту */
+}
+
+/* Дополнительно для вложенных элементов */
+.sidebar-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* На случай вложенных контейнеров */
+}
+.sidebar-menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu {
+  list-style: none;
+
+  flex-grow: 1; /* Занимает доступное пространство */
+  padding-right: 2px; /* Чтобы контент не прилипал к скроллу */
+  padding-left: 3px;
+}
+
+/* Остальные стили без изменений */
+.app-name {
+  font-family: 'Lexend Tera', sans-serif;
+  color: #00514e;
+  letter-spacing: 2px;
+  margin-left: 10px;
+}
+
+.menu-item {
   display: flex;
   align-items: center;
+  padding: 12px 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  color: #3a3333;
+  text-decoration: none;
+  transition: background 0.3s;
 }
 
-.main-content-container ul li:hover {
-  background-color: #ddd;
+.menu-item:hover {
+  background-color: #f0f4f8;
 }
 
-.image-container {
-  width: 29px;
-  height: 41px;
-  margin-right: 15px;
+.menu-item img {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
 }
 
-.menu-item-text {
-  font: 300 16px Inter, sans-serif;
-  color: black;
+.menu-item span {
+  font-size: 15px;
 }
 
-.flex-row-with-image {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-  padding: 10px 20px;
-  border-radius: 20px;
+/* Темная тема для сайдбара */
+body.dark-theme .sidebar {
+  background-color: #2d2d2d;
+  border-right-color: #114d48;
+  box-shadow: 5px 4px 16px rgba(0, 0, 0, 0.3), 
+              0 10px 10px rgba(22, 14, 14, 0.25);
 }
 
-.flex-row-with-image:hover {
-  background-color: #EDEEF0;
+body.dark-theme .menu-item {
+  color: #e0e0e0;
+}
+
+body.dark-theme .menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .menu-item img {
+  filter: invert(0.2);
+}
+
+/* Дополнительно можно стилизовать активный пункт меню */
+body.dark-theme .menu-item.active {
+  background-color: #3a6d69;
+  color: rgb(230, 70, 70);
+}
+
+body.dark-theme .menu-item.active:hover {
+  background-color: #2e5854;
 }

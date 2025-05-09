@@ -1,66 +1,172 @@
-.app-container {
+/* Основные стили */
+.vacation-requests-container {
+  width: 100%;
+  margin: 0 auto;
+  background: #f8f9fa; /* Добавляем общий фон контейнера */
+  height: 100vh; /* Занимает всю высоту экрана */
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
 }
-
-.main-content {
-  display: flex;
-  flex: 1;
-  padding: 20px;
-}
-.dashboard {
-  flex: 1;
-  background-color: #fff;
+.vacation-requests-section {
+  flex: 1; /* Занимает все доступное пространство */
+  background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.employees-page {
+  flex: 1; /* Растягиваем на весь доступный контейнер */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: none; /* Убираем ограничение максимальной ширины */
+  margin: 0;
+  padding: 0;
 }
 
-  .search-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.header-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 15px 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+
+.search-input {
+  flex: 1;
+  padding: 10px 15px;
+  font-size: 16px;
+  min-width: 300px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.add-vacation-btn {
+  padding: 10px 25px;
+  background-color: #194e45;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.add-vacation-btn:hover {
+  background-color: #226151;
+}
+
+.employees-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #6c757e; /* Изменен цвет таблицы */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.employees-table th {
+  background-color: #194e45;
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 500;
+}
+
+.employees-table td {
+  padding: 1rem;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.employees-table tr:last-child td {
+  border-bottom: none;
+}
+
+.employees-table tr:hover {
+  background-color: #e5e7eb; /* Изменен цвет ховера */
+}
+
+/* Темная тема */
+body.dark-theme .vacation-requests-container {
+  background-color:#444;/* Унифицированный цвет */
+  
+}
+
+body.dark-theme .vacation-requests-section{
+  background-color: #333; /* Унифицированный цвет */
+}
+body.dark-theme .employees-page {
+  background-color: transparent; /* Убираем двойной фон */
+}
+
+body.dark-theme .header-controls {
+  background-color: #2d2d2d;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .search-input {
+  background-color: #333;
+  border-color: #444;
+  color: #fff;
+}
+
+body.dark-theme .employees-table {
+  background-color: #2d2d2d;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .employees-table td {
+  color: #d1d5db;
+  border-bottom-color: #3d3d3d;
+}
+body.dark-theme .employees-table th {
+  background-color: #1f534b;
+}
+
+
+
+body.dark-theme .employees-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .role-badge--admin { background-color: #c53030; }
+body.dark-theme .role-badge--manager { background-color: #2e8b57; }
+body.dark-theme .role-badge--employee { background-color: #3a6d69; }
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .header-controls {
+    flex-direction: column;
   }
   
-  .search-bar input {
-    padding: 8px 12px;
-    border: 1px solid #1b333d;
-    border-radius: 4px;
-    font-size: 14px;
-    flex-grow: 1;
+  .search-input {
+    width: 100%;
+    min-width: auto;
   }
   
   .add-vacation-btn {
-    background-color: #0a6b5e;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .add-vacation-btn:hover {
-    background-color: #084d45;
-  }
-  
-  .employees-table {
     width: 100%;
-    border-collapse: collapse;
+    padding: 12px;
   }
-  
+
+  .employees-page {
+    padding: 1rem;
+  }
+
   .employees-table th,
   .employees-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    padding: 0.75rem;
   }
-  
-  .employees-table th {
-    background-color: #00514E;
-  }
-  
+}

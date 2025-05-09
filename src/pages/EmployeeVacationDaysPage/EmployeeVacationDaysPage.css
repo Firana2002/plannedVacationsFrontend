@@ -1,0 +1,21 @@
+.search-input {
+  flex: 1; /* Позволяет инпуту занимать доступное пространство */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px; /* Отступ справа для кнопки */
+}
+
+.add-vacation-btn {
+  padding: 10px 15px;
+  background-color: #30665f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-vacation-btn:hover {
+  background-color: #0d463c;
+}
+

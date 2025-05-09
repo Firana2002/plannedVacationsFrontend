@@ -1,20 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { getVacationTypes, createVacationRequest } from '@/api/plannedVacations';
+import { getVacationTypes, createVacationRequest, getMyPlannedVacations } from '@/api/plannedVacations';
+import { getEmployee } from '@/api/employees';
 import { useSelector } from 'react-redux';
+import './AddVacationPage.css';
 
 const VacationRequestForm = () => {
     const [employeeId, setEmployeeId] = useState(null);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
     const [vacationTypeId, setVacationTypeId] = useState(0);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [daysCount, setDaysCount] = useState(0);
     const [comment, setComment] = useState('');
     const [vacationTypes, setVacationTypes] = useState([]);
+    const [employeeData, setEmployeeData] = useState(null);
     const { userData } = useSelector((state) => state.user);
-    
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [error, setError] = useState(null);
+    const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+    const [approvedVacations, setApprovedVacations] = useState([]);
+
     useEffect(() => {
         if (userData && userData.employeeId) {
             setEmployeeId(userData.employeeId);
+            // Загружаем данные о сотруднике
+            const fetchEmployeeData = async () => {
+                try {
+                    const response = await getEmployee(userData.employeeId);
+                    console.log('Employee data from API:', response.data);
+                    setEmployeeData(response.data);
+                } catch (error) {
+                    console.error('Error fetching employee data:', error);
+                }
+            };
+            fetchEmployeeData();
+
+            // Загружаем одобренные отпуска
+            const fetchApprovedVacations = async () => {
+                try {
+                    const response = await getMyPlannedVacations();
+                    const approved = response.filter(v => v.vacationStatusId === 2); // Статус "Одобрено"
+                    setApprovedVacations(approved);
+                } catch (error) {
+                    console.error('Error fetching approved vacations:', error);
+                }
+            };
+            fetchApprovedVacations();
         }
     }, [userData]);
 
@@ -22,21 +53,137 @@ const VacationRequestForm = () => {
         const fetchData = async () => {
             const vacationTypesData = await getVacationTypes();
             setVacationTypes(vacationTypesData);
+            setLoading(false);
         };
         fetchData();
-        setLoading(false)
     }, []);
+
+    useEffect(() => {
+        if (startDate && daysCount > 0) {
+            const start = new Date(startDate);
+            const end = new Date(start);
+            end.setDate(start.getDate() + daysCount - 1);
+            setEndDate(end.toISOString().split('T')[0]);
+        }
+    }, [startDate, daysCount]);
+
+    useEffect(() => {
+        if (startDate && endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const diffTime = Math.abs(end - start);
+            const calculatedDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            setDaysCount(calculatedDays);
+        }
+    }, [endDate]);
+
+    const handleDaysCountChange = (e) => {
+        const value = parseInt(e.target.value) || 0;
+        setDaysCount(value > 0 ? value : 0);
+    };
+
+    const hasLongVacation = () => {
+        return approvedVacations.some(vacation => {
+            const start = new Date(vacation.startDate);
+            const end = new Date(vacation.endDate);
+            const days = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
+            return days >= 14;
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const vacationRequest = {
-            employeeId,
-            vacationTypeId,
-            startDate,
-            endDate,
-            comment,
+        setError(null);
+
+        // Если текущая заявка не менее 14 дней
+        if (daysCount >= 14) {
+            const vacationRequest = {
+                employeeId,
+                vacationTypeId,
+                startDate,
+                endDate,
+                comment,
+            };
+            try {
+                await createVacationRequest(vacationRequest);
+                setIsModalOpen(true);
+                // Обнуляем данные
+                setVacationTypeId(0);
+                setStartDate('');
+                setEndDate('');
+                setDaysCount(0);
+                setComment('');
+            } catch (err) {
+                setError(err);
+                setIsErrorModalOpen(true);
+            }
+            return;
+        }
+
+        // Если текущая заявка менее 14 дней
+        const hasLongApprovedVacation = hasLongVacation();
+        const remainingDays = employeeData?.accumulatedVacationDays - daysCount;
+
+        // Если есть одобренный отпуск не менее 14 дней или после заявки останется не менее 14 дней
+        if (hasLongApprovedVacation || remainingDays >= 14) {
+            const vacationRequest = {
+                employeeId,
+                vacationTypeId,
+                startDate,
+                endDate,
+                comment,
+            };
+            try {
+                await createVacationRequest(vacationRequest);
+                setIsModalOpen(true);
+                // Обнуляем данные
+                setVacationTypeId(0);
+                setStartDate('');
+                setEndDate('');
+                setDaysCount(0);
+                setComment('');
+            } catch (err) {
+                setError(err);
+                setIsErrorModalOpen(true);
+            }
+        } else {
+            // Если нет одобренного отпуска не менее 14 дней и после заявки не останется достаточно дней
+            setError({
+                message: "У вас должен быть как минимум один отпуск не менее 14 дней",
+                details: {
+                    available: employeeData?.accumulatedVacationDays,
+                    requested: daysCount,
+                    remaining: remainingDays,
+                    minimumRequired: 14,
+                    existingVacations: approvedVacations.map(v => ({
+                        startDate: v.startDate,
+                        endDate: v.endDate,
+                        days: Math.floor((new Date(v.endDate) - new Date(v.startDate)) / (1000 * 60 * 60 * 24)) + 1
+                    }))
+                }
+            });
+            setIsErrorModalOpen(true);
+        }
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const closeErrorModal = () => {
+        setIsErrorModalOpen(false);
+        setError(null);
+    };
+
+    const calculateWorkExperience = (hireDate) => {
+        const hire = new Date(hireDate);
+        const now = new Date();
+        const years = now.getFullYear() - hire.getFullYear();
+        const months = now.getMonth() - hire.getMonth();
+        return {
+            years,
+            months: months < 0 ? months + 12 : months
         };
-        await createVacationRequest(vacationRequest);
     };
 
     if (loading) {
@@ -50,64 +197,150 @@ const VacationRequestForm = () => {
                     <span className="sr-only">Loading...</span>
                 </div>
             </div>
-        )
+        );
     }
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-white rounded shadow-md">
-            <h2 className="text-lg font-bold mb-4">Заявка на отпуск</h2>
-            <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Тип отпуска</label>
-                <select
-                    value={vacationTypeId}
-                    onChange={(e) => setVacationTypeId(Number(e.target.value))}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
-                >
-                    <option value={0}>Выберите тип отпуска</option>
-                    {vacationTypes.map((type) => (
-                        <option key={type.vacationTypeId} value={type.vacationTypeId}>
-                            {type.name}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Дата начала</label>
-                <input
-                    type="date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
-                    required
-                />
-            </div>
-            <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Дата окончания</label>
-                <input
-                    type="date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
-                    required
-                />
-            </div>
-            <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Комментарий</label>
-                <textarea
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
-                />
-            </div>
-            <button
-                type="submit"
-                className="w-full bg-blue-500 text-white font-bold py-2 rounded hover:bg-blue-600"
-            >
-                Отправить заявку
-            </button>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit} className="vacation-form">
+                <h2 className="form-title">Заявка на отпуск</h2>
+
+                {employeeData && (
+                    <div className="employee-info">
+                        <div className="info-group">
+                            <label>Накопленные дни отпуска:</label>
+                            <span className="info-value">
+                                {employeeData.accumulatedVacationDays !== undefined 
+                                    ? `${employeeData.accumulatedVacationDays} дней` 
+                                    : 'Данные недоступны'}
+                            </span>
+                        </div>
+                        <div className="info-group">
+                            <label>Стаж работы:</label>
+                            <span className="info-value">
+                                {calculateWorkExperience(employeeData.hireDate).years} лет{' '}
+                                {calculateWorkExperience(employeeData.hireDate).months} месяцев
+                            </span>
+                        </div>
+                    </div>
+                )}
+
+                <div className="form-group">
+                    <label>Дата начала отпуска</label>
+                    <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="form-input"
+                        required
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>Количество дней:</label>
+                    <input
+                        type="number"
+                        value={daysCount}
+                        onChange={handleDaysCountChange}
+                        min="1"
+                        className="form-input"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>Дата окончания отпуска:</label>
+                    <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        className="form-input"
+                        required
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>Тип отпуска:</label>
+                    <select
+                        value={vacationTypeId}
+                        onChange={(e) => setVacationTypeId(Number(e.target.value))}
+                        className="form-input"
+                    >
+                        <option value={0}>Выберите тип отпуска</option>
+                        {vacationTypes.map((type) => (
+                            <option key={type.vacationTypeId} value={type.vacationTypeId}>
+                                {type.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="form-group">
+                    <label>Комментарий:</label>
+                    <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        className="form-textarea"
+                    />
+                </div>
+
+                <div className="form-checkbox">
+                    <input type="checkbox" id="agree" required />
+                    <label htmlFor="agree">Я согласен с условиями</label>
+                </div>
+
+                <button type="submit" className="submit-button">
+                    Сохранить
+                </button>
+            </form>
+
+            {isModalOpen && (
+                <div className="modal5">
+                    <div className="modal-content5">
+                        <span className="close5" onClick={closeModal}>&times;</span>
+                        <p>Ваша заявка успешно отправлена!</p>
+                    </div>
+                </div>
+            )}
+
+            {isErrorModalOpen && error && (
+                <div className="modal5">
+                    <div className="modal-content5 error">
+                        <span className="close5" onClick={closeErrorModal}>&times;</span>
+                        <h3>Ошибка при отправке заявки</h3>
+                        <p>{error.message}</p>
+                        {error.details && (
+                            <div className="error-details">
+                                {error.details.available !== undefined && (
+                                    <p>Доступно дней: {error.details.available}</p>
+                                )}
+                                {error.details.requested !== undefined && (
+                                    <p>Запрошено дней: {error.details.requested}</p>
+                                )}
+                                {error.details.remaining !== undefined && (
+                                    <p>Останется дней: {error.details.remaining}</p>
+                                )}
+                                {error.details.minimumRequired !== undefined && (
+                                    <p>Минимум требуется: {error.details.minimumRequired}</p>
+                                )}
+                                {error.details.existingVacations && (
+                                    <div>
+                                        <p>Существующие отпуска:</p>
+                                        <ul>
+                                            {error.details.existingVacations.map((vacation, index) => (
+                                                <li key={index}>
+                                                    {vacation.startDate} - {vacation.endDate} ({vacation.days} дней)
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 
 export default VacationRequestForm;
-

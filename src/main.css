@@ -1,41 +1,71 @@
-@import "tailwindcss";
-
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font: 800 32px Inter, sans-serif;
-  }
-
-  #root {
-    height: 100vh;
-  }  
-
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-  
-  a {
-    text-decoration: none; /* Убираем подчеркивание */
-    cursor: pointer; /* Устанавливаем курсор в виде указателя */
-  }
-  
-  a:hover {
-    text-decoration: none; /* Убираем подчеркивание при наведении */
-  }
-  
-  .app-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column; /* Вертикальное расположение для шапки и основного контента */
-    margin-left: 33.33%; /* Отступ для основного контента, чтобы не перекрывать сайдбар */
-    padding: 20px; /* Отступы для основного контента */
-    background-color: #EDEEF0;
+/* Основная структура */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-  
+
+/* Шапка на всю ширину */
+/* Фиксация шапки */
+.header {
+  width: 100%;
+  position: sticky; /* Фиксируем шапку */
+  top: 0; /* Прилипает к верхней части экрана */
+  z-index: 1000; /* Убедитесь, что шапка находится поверх других элементов */
+  height: 60px; /* Высота шапки */
+  background: #00514e;
+  color: white;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Фиксация сайдбара */
+
+/* Основное содержимое страницы */
+.page-content {
+  margin-left: 0px; /* Отступ для сайдбара */
+  padding: 3px;
+  flex: 1;
+  min-height: calc(100vh - 60px); /* Минимальная высота равна высоте экрана минус высота шапки */
+}
+
+/* Обертка для сайдбара и контента */
+.content-wrapper {
+  display: flex;
+  margin-top: 0px; /* Отступ под шапку */
+  flex: 1;
+}
+
+/* Для страницы входа (без шапки и сайдбара) */
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+}
+
+.page-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+/* Общие стили для темной темы */
+body.dark-theme {
+  background-color: #333;
+  color: #772020;
+}
+
+/* Стили для шапки в темной теме */
+.dark-theme .header {
+  background-color: #222;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Стили для основного содержимого в темной теме */
+.dark-theme .page-content {
+  background-color: #444;
+}

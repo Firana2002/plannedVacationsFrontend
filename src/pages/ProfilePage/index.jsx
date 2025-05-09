@@ -30,13 +30,15 @@ export default function BasicTabs() {
     
 
   return (
+    <div className="vacation-requests-container">
+      <div className="vacation-requests-section">
       <div className="personal-info">
-        <h2>Личная информация</h2>
+     
         <div className="info-card">
-          <p><strong>Имя:</strong>{userData.lastName} {userData.firstName} {userData.middleName}</p>
-          <p><strong>Почта:</strong> {userData.email}</p>
-          <p><strong>Должность:</strong> {userData.position.name}</p>
-          <p><strong>Отдел:</strong> {userData.department.name}</p>
+          <p><strong>Имя: &nbsp;&nbsp; </strong>{userData.lastName} {userData.firstName} {userData.middleName}</p>
+          <p><strong>Почта: &nbsp;&nbsp;  </strong> {userData.email}</p>
+          <p><strong>Должность: &nbsp;&nbsp;  </strong> {userData.position.name}</p>
+          <p><strong>Отдел: &nbsp;&nbsp;  </strong> {userData.department.name}</p>
         </div>
 
         <table>
@@ -61,6 +63,6 @@ export default function BasicTabs() {
             ))}
           </tbody>
         </table>
-      </div>
+      </div></div></div>
   );
 }
