@@ -66,36 +66,35 @@ const AllVacationsPage = () => {
   };
 
   // Фильтрация заявок
-  const filteredApplications = (applications || []).filter(app => {
-    const employeeId = app.employee?.employeeId;
-    const isMyApplication = app.employeeId === userData?.employeeId;
-    
-    console.log('Filtering application:', {
-      app,
-      employeeId,
-      userEmployeeId: userData?.employeeId,
-      isMyApplication,
-      currentFilter: filter,
-      userRole: userData?.roleId
-    });
-    
-    // Для руководителя показываем все заявки по умолчанию
-    if (userData?.roleId === 1) {
-      switch (filter) {
-        case 'my':
-          return isMyApplication;
-        case 'approved':
-          return app.vacationStatusId === 2;
-        case 'rejected':
-          return app.vacationStatusId === 3;
-        default:
-          return true; // Показываем все заявки
-      }
-    } else {
-      // Для сотрудника показываем только его заявки
-      return isMyApplication;
+  const filteredApplications = applications.filter(app => {
+  const isMyApplication = app.userId === userData.id;
+
+  if (userData?.roleId === 1) {
+    switch (filter) {
+      case 'my':
+        return isMyApplication;
+      case 'approved':
+        return app.vacationStatusId === 2;
+      case 'rejected':
+        return app.vacationStatusId === 3;
+      default:
+        return true;
     }
-  });
+  } else {
+    // Внесите изменения здесь:
+    if (!isMyApplication) return false;
+    switch (filter) {
+      case 'approved':
+        return app.vacationStatusId === 2;
+      case 'rejected':
+        return app.vacationStatusId === 3;
+      case 'my':
+        return true;
+      default:
+        return true;
+    }
+  }
+});
 
   // Поиск по имени, тегу или отделу
   const searchedApplications = filteredApplications.filter(app => {

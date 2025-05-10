@@ -21,41 +21,39 @@ const VacationRequestForm = () => {
     const [approvedVacations, setApprovedVacations] = useState([]);
 
     useEffect(() => {
-        if (userData && userData.employeeId) {
+        if (userData?.employeeId) {
             setEmployeeId(userData.employeeId);
-            // Загружаем данные о сотруднике
-            const fetchEmployeeData = async () => {
+            
+            const fetchData = async () => {
                 try {
-                    const response = await getEmployee(userData.employeeId);
-                    console.log('Employee data from API:', response.data);
-                    setEmployeeData(response.data);
+                    const [employeeRes, vacationsRes] = await Promise.all([
+                        getEmployee(userData.employeeId),
+                        getMyPlannedVacations()
+                    ]);
+                    
+                    setEmployeeData(employeeRes.data);
+                    setApprovedVacations(vacationsRes.filter(v => v.vacationStatusId === 2));
                 } catch (error) {
-                    console.error('Error fetching employee data:', error);
+                    console.error('Error fetching data:', error);
                 }
             };
-            fetchEmployeeData();
-
-            // Загружаем одобренные отпуска
-            const fetchApprovedVacations = async () => {
-                try {
-                    const response = await getMyPlannedVacations();
-                    const approved = response.filter(v => v.vacationStatusId === 2); // Статус "Одобрено"
-                    setApprovedVacations(approved);
-                } catch (error) {
-                    console.error('Error fetching approved vacations:', error);
-                }
-            };
-            fetchApprovedVacations();
+            
+            fetchData();
         }
     }, [userData]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const vacationTypesData = await getVacationTypes();
-            setVacationTypes(vacationTypesData);
-            setLoading(false);
+        const fetchVacationTypes = async () => {
+            try {
+                const types = await getVacationTypes();
+                setVacationTypes(types);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching vacation types:', error);
+            }
         };
-        fetchData();
+        
+        fetchVacationTypes();
     }, []);
 
     useEffect(() => {
@@ -77,113 +75,99 @@ const VacationRequestForm = () => {
         }
     }, [endDate]);
 
-    const handleDaysCountChange = (e) => {
-        const value = parseInt(e.target.value) || 0;
-        setDaysCount(value > 0 ? value : 0);
+    const calculateUsedVacationDays = () => {
+        const currentDate = new Date();
+        return approvedVacations.reduce((total, vacation) => {
+            const start = new Date(vacation.startDate);
+            const end = new Date(vacation.endDate);
+            if (end < currentDate) {
+                return total + Math.floor((end - start) / 86400000) + 1;
+            }
+            return total;
+        }, 0);
     };
 
     const hasLongVacation = () => {
         return approvedVacations.some(vacation => {
             const start = new Date(vacation.startDate);
             const end = new Date(vacation.endDate);
-            const days = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
-            return days >= 14;
+            return (Math.floor((end - start) / 86400000) + 1) >= 14;
         });
+    };
+
+    const validateRequest = () => {
+        if (!employeeData) return "Данные сотрудника не загружены";
+        
+        const totalAvailable = employeeData.accumulatedVacationDays;
+        const usedDays = calculateUsedVacationDays();
+        const availableDays = totalAvailable - usedDays;
+        const remaining = availableDays - daysCount;
+
+        if (daysCount < 1) return "Минимальная продолжительность отпуска - 1 день";
+        if (daysCount > availableDays) return `Недостаточно дней. Доступно: ${availableDays}`;
+
+        const hasLongApproved = hasLongVacation();
+        let minRequired = 7;
+
+        if (!hasLongApproved) {
+            if (daysCount >= 14) {
+                minRequired = 7;
+            } else {
+                minRequired = 14;
+            }
+        }
+
+        if (remaining < minRequired) {
+            return `После отпуска останется ${remaining} дней. Требуется минимум ${minRequired}`;
+        }
+
+        return null;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
-
-        // Если текущая заявка не менее 14 дней
-        if (daysCount >= 14) {
-            const vacationRequest = {
-                employeeId,
-                vacationTypeId,
-                startDate,
-                endDate,
-                comment,
-            };
-            try {
-                await createVacationRequest(vacationRequest);
-                setIsModalOpen(true);
-                // Обнуляем данные
-                setVacationTypeId(0);
-                setStartDate('');
-                setEndDate('');
-                setDaysCount(0);
-                setComment('');
-            } catch (err) {
-                setError(err);
-                setIsErrorModalOpen(true);
-            }
+        const validationError = validateRequest();
+        
+        if (validationError) {
+            setError({ message: validationError });
+            setIsErrorModalOpen(true);
             return;
         }
 
-        // Если текущая заявка менее 14 дней
-        const hasLongApprovedVacation = hasLongVacation();
-        const remainingDays = employeeData?.accumulatedVacationDays - daysCount;
-
-        // Если есть одобренный отпуск не менее 14 дней или после заявки останется не менее 14 дней
-        if (hasLongApprovedVacation || remainingDays >= 14) {
-            const vacationRequest = {
+        try {
+            await createVacationRequest({
                 employeeId,
                 vacationTypeId,
                 startDate,
                 endDate,
                 comment,
-            };
-            try {
-                await createVacationRequest(vacationRequest);
-                setIsModalOpen(true);
-                // Обнуляем данные
-                setVacationTypeId(0);
-                setStartDate('');
-                setEndDate('');
-                setDaysCount(0);
-                setComment('');
-            } catch (err) {
-                setError(err);
-                setIsErrorModalOpen(true);
-            }
-        } else {
-            // Если нет одобренного отпуска не менее 14 дней и после заявки не останется достаточно дней
-            setError({
-                message: "У вас должен быть как минимум один отпуск не менее 14 дней",
+            });
+            
+            setIsModalOpen(true);
+            setVacationTypeId(0);
+            setStartDate('');
+            setEndDate('');
+            setDaysCount(0);
+            setComment('');
+        } catch (err) {
+            setError({ 
+                message: err.response?.data?.message || "Ошибка при отправке заявки",
                 details: {
-                    available: employeeData?.accumulatedVacationDays,
-                    requested: daysCount,
-                    remaining: remainingDays,
-                    minimumRequired: 14,
-                    existingVacations: approvedVacations.map(v => ({
-                        startDate: v.startDate,
-                        endDate: v.endDate,
-                        days: Math.floor((new Date(v.endDate) - new Date(v.startDate)) / (1000 * 60 * 60 * 24)) + 1
-                    }))
+                    available: employeeData?.accumulatedVacationDays - calculateUsedVacationDays(),
+                    requested: daysCount
                 }
             });
             setIsErrorModalOpen(true);
         }
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
-
-    const closeErrorModal = () => {
-        setIsErrorModalOpen(false);
-        setError(null);
-    };
-
-    const calculateWorkExperience = (hireDate) => {
-        const hire = new Date(hireDate);
+    const calculateWorkExperience = () => {
+        if (!employeeData?.hireDate) return '';
+        const hire = new Date(employeeData.hireDate);
         const now = new Date();
         const years = now.getFullYear() - hire.getFullYear();
         const months = now.getMonth() - hire.getMonth();
-        return {
-            years,
-            months: months < 0 ? months + 12 : months
-        };
+        return `${years} лет ${months < 0 ? months + 12 : months} месяцев`;
     };
 
     if (loading) {
@@ -210,16 +194,13 @@ const VacationRequestForm = () => {
                         <div className="info-group">
                             <label>Накопленные дни отпуска:</label>
                             <span className="info-value">
-                                {employeeData.accumulatedVacationDays !== undefined 
-                                    ? `${employeeData.accumulatedVacationDays} дней` 
-                                    : 'Данные недоступны'}
+                                {employeeData.accumulatedVacationDays} из {employeeData.totalAccumulatedVacationDays} дней
                             </span>
                         </div>
                         <div className="info-group">
                             <label>Стаж работы:</label>
                             <span className="info-value">
-                                {calculateWorkExperience(employeeData.hireDate).years} лет{' '}
-                                {calculateWorkExperience(employeeData.hireDate).months} месяцев
+                                {calculateWorkExperience()}
                             </span>
                         </div>
                     </div>
@@ -241,9 +222,10 @@ const VacationRequestForm = () => {
                     <input
                         type="number"
                         value={daysCount}
-                        onChange={handleDaysCountChange}
+                        onChange={(e) => setDaysCount(Math.max(0, parseInt(e.target.value) || 0))}
                         min="1"
                         className="form-input"
+                        required
                     />
                 </div>
 
@@ -264,6 +246,7 @@ const VacationRequestForm = () => {
                         value={vacationTypeId}
                         onChange={(e) => setVacationTypeId(Number(e.target.value))}
                         className="form-input"
+                        required
                     >
                         <option value={0}>Выберите тип отпуска</option>
                         {vacationTypes.map((type) => (
@@ -284,7 +267,12 @@ const VacationRequestForm = () => {
                 </div>
 
                 <div className="form-checkbox">
-                    <input type="checkbox" id="agree" required />
+                    <input 
+                        type="checkbox" 
+                        id="agree" 
+                        required 
+                        className="checkbox-input"
+                    />
                     <label htmlFor="agree">Я согласен с условиями</label>
                 </div>
 
@@ -296,7 +284,7 @@ const VacationRequestForm = () => {
             {isModalOpen && (
                 <div className="modal5">
                     <div className="modal-content5">
-                        <span className="close5" onClick={closeModal}>&times;</span>
+                        <span className="close5" onClick={() => setIsModalOpen(false)}>&times;</span>
                         <p>Ваша заявка успешно отправлена!</p>
                     </div>
                 </div>
@@ -305,35 +293,13 @@ const VacationRequestForm = () => {
             {isErrorModalOpen && error && (
                 <div className="modal5">
                     <div className="modal-content5 error">
-                        <span className="close5" onClick={closeErrorModal}>&times;</span>
+                        <span className="close5" onClick={() => setIsErrorModalOpen(false)}>&times;</span>
                         <h3>Ошибка при отправке заявки</h3>
                         <p>{error.message}</p>
                         {error.details && (
                             <div className="error-details">
-                                {error.details.available !== undefined && (
-                                    <p>Доступно дней: {error.details.available}</p>
-                                )}
-                                {error.details.requested !== undefined && (
-                                    <p>Запрошено дней: {error.details.requested}</p>
-                                )}
-                                {error.details.remaining !== undefined && (
-                                    <p>Останется дней: {error.details.remaining}</p>
-                                )}
-                                {error.details.minimumRequired !== undefined && (
-                                    <p>Минимум требуется: {error.details.minimumRequired}</p>
-                                )}
-                                {error.details.existingVacations && (
-                                    <div>
-                                        <p>Существующие отпуска:</p>
-                                        <ul>
-                                            {error.details.existingVacations.map((vacation, index) => (
-                                                <li key={index}>
-                                                    {vacation.startDate} - {vacation.endDate} ({vacation.days} дней)
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
+                                <p>Доступно дней: {error.details.available}</p>
+                                <p>Запрошено дней: {error.details.requested}</p>
                             </div>
                         )}
                     </div>
