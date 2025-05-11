@@ -139,7 +139,10 @@ const VacationRequestForm = () => {
             });
             
             if (response.warning) {
-                setWarning(response.warning);
+                setWarning({
+                    message: response.warning.message,
+                    overlappingVacations: response.warning.overlappingVacations
+                });
                 setIsWarningModalOpen(true);
             } else {
                 setIsModalOpen(true);
