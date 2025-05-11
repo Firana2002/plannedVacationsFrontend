@@ -180,6 +180,27 @@
     color: #666;
 }
 
+.modal-content5.warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
+
+.modal-content5.warning h3 {
+    color: #856404;
+}
+
+.warning-details {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: rgba(255, 193, 7, 0.1);
+    border-radius: 4px;
+}
+
+.warning-details p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
 
 /* Темная тема для формы */
 body.dark-theme .vacation-form {
@@ -268,3 +289,51 @@ body.dark-theme .vacation-form {
   body.dark-theme input[type="checkbox"] {
     accent-color: #24554e;
   }
+
+
+  /* Стили для модального окна с предупреждением */
+.modal-content5.warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    max-width: 600px;
+}
+
+.overlapping-list {
+    margin: 15px 0;
+}
+
+.overlapping-item {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.confirm-button {
+    background-color: #ffc107;
+    color: #000;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    margin-top: 15px;
+}
+
+.confirm-button:hover {
+    background-color: #e0a800;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .modal-content5.warning {
+        width: 90%;
+        margin: 15% auto;
+    }
+    
+    .overlapping-item {
+        padding: 8px;
+        font-size: 14px;
+    }
+}

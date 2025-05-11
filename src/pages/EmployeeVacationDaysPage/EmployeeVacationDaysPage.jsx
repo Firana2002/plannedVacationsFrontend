@@ -20,6 +20,8 @@ const EmployeeVacationDaysPage = () => {
         console.log('Fetching all vacations');
         const data = await getEmployeeVacationDays();
         console.log('Received vacations:', data);
+        console.log('Response status:', data?.status);
+        console.log('Response headers:', data?.headers);
         
         // Если указан год, фильтруем отпуска
         if (selectedYear) {
@@ -35,6 +37,8 @@ const EmployeeVacationDaysPage = () => {
         }
       } catch (error) {
         console.error("Ошибка при получении данных:", error);
+        console.error("Error details:", error.response?.data);
+        console.error("Error status:", error.response?.status);
         setError(error.message || "Произошла ошибка при загрузке отпусков");
       } finally {
         setLoading(false);

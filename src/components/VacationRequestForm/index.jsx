@@ -18,6 +18,8 @@ const VacationRequestForm = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [error, setError] = useState(null);
     const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+    const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
+    const [warning, setWarning] = useState(null);
     const [approvedVacations, setApprovedVacations] = useState([]);
 
     useEffect(() => {
@@ -75,17 +77,12 @@ const VacationRequestForm = () => {
         }
     }, [endDate]);
 
-    const calculateUsedVacationDays = () => {
-        const currentDate = new Date();
-        return approvedVacations.reduce((total, vacation) => {
-            const start = new Date(vacation.startDate);
-            const end = new Date(vacation.endDate);
-            if (end < currentDate) {
-                return total + Math.floor((end - start) / 86400000) + 1;
-            }
-            return total;
-        }, 0);
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('ru-RU', options);
     };
+
+    
 
     const hasLongVacation = () => {
         return approvedVacations.some(vacation => {
@@ -96,33 +93,31 @@ const VacationRequestForm = () => {
     };
 
     const validateRequest = () => {
-        if (!employeeData) return "Данные сотрудника не загружены";
-        
-        const totalAvailable = employeeData.accumulatedVacationDays;
-        const usedDays = calculateUsedVacationDays();
-        const availableDays = totalAvailable - usedDays;
-        const remaining = availableDays - daysCount;
+    if (!employeeData) return "Данные сотрудника не загружены";
+    
+    const totalAvailable = employeeData.accumulatedVacationDays; // Уже содержит (общее кол-во - использованные)
+    const remaining = totalAvailable - daysCount;
 
-        if (daysCount < 1) return "Минимальная продолжительность отпуска - 1 день";
-        if (daysCount > availableDays) return `Недостаточно дней. Доступно: ${availableDays}`;
+    if (daysCount < 1) return "Минимальная продолжительность отпуска - 1 день";
+    if (daysCount > totalAvailable) return `Недостаточно дней. Доступно: ${totalAvailable}`;
 
-        const hasLongApproved = hasLongVacation();
-        let minRequired = 7;
+    const hasLongApproved = hasLongVacation();
+    let minRequired = 7;
 
-        if (!hasLongApproved) {
-            if (daysCount >= 14) {
-                minRequired = 7;
-            } else {
-                minRequired = 14;
-            }
+    if (!hasLongApproved) {
+        if (daysCount >= 14) {
+            minRequired = 7;
+        } else {
+            minRequired = 14;
         }
+    }
 
-        if (remaining < minRequired) {
-            return `После отпуска останется ${remaining} дней. Требуется минимум ${minRequired}`;
-        }
+    if (remaining < minRequired) {
+        return `После отпуска останется ${remaining} дней. Требуется минимум ${minRequired}`;
+    }
 
-        return null;
-    };
+    return null;
+};
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -135,7 +130,7 @@ const VacationRequestForm = () => {
         }
 
         try {
-            await createVacationRequest({
+            const response = await createVacationRequest({
                 employeeId,
                 vacationTypeId,
                 startDate,
@@ -143,7 +138,14 @@ const VacationRequestForm = () => {
                 comment,
             });
             
-            setIsModalOpen(true);
+            if (response.warning) {
+                setWarning(response.warning);
+                setIsWarningModalOpen(true);
+            } else {
+                setIsModalOpen(true);
+            }
+            
+            // Сброс формы
             setVacationTypeId(0);
             setStartDate('');
             setEndDate('');
@@ -192,11 +194,11 @@ const VacationRequestForm = () => {
                 {employeeData && (
                     <div className="employee-info">
                         <div className="info-group">
-                            <label>Накопленные дни отпуска:</label>
-                            <span className="info-value">
-                                {employeeData.accumulatedVacationDays} из {employeeData.totalAccumulatedVacationDays} дней
-                            </span>
-                        </div>
+    <label>Накопленные дни отпуска:</label>
+    <span className="info-value">
+        {employeeData.accumulatedVacationDays} из {employeeData.totalAccumulatedVacationDays} дней
+    </span>
+</div>
                         <div className="info-group">
                             <label>Стаж работы:</label>
                             <span className="info-value">
@@ -302,6 +304,30 @@ const VacationRequestForm = () => {
                                 <p>Запрошено дней: {error.details.requested}</p>
                             </div>
                         )}
+                    </div>
+                </div>
+            )}
+
+            {isWarningModalOpen && warning && (
+                <div className="modal5">
+                    <div className="modal-content5 warning">
+                        <span className="close5" onClick={() => setIsWarningModalOpen(false)}>&times;</span>
+                        <h3>Внимание!</h3>
+                        <p>{warning.message}</p>
+                        <div className="overlapping-list">
+                            {warning.overlappingVacations.map((vacation, index) => (
+                                <div key={index} className="overlapping-item">
+                                    <p>Сотрудник: {vacation.employeeName}</p>
+                                    <p>Период: {formatDate(vacation.startDate)} - {formatDate(vacation.endDate)}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <button 
+                            className="confirm-button"
+                            onClick={() => setIsWarningModalOpen(false)}
+                        >
+                            Понятно
+                        </button>
                     </div>
                 </div>
             )}
