@@ -100,3 +100,28 @@
 .notifications-error {
     color: #f44336;
 } 
+
+body.dark-theme .notification-item {
+    background-color: #2d2d2d;
+    border-left-color: #3a6d69;
+}
+
+body.dark-theme .notification-message {
+    color: #e0e0e0;
+}
+
+body.dark-theme .notification-date {
+    color: #a0a0a0;
+}
+
+body.dark-theme .notifications-header h2 {
+    color: #f0f0f0;
+}
+
+body.dark-theme .mark-all-read-button {
+    background-color: #3a6d69;
+}
+
+body.dark-theme .mark-all-read-button:hover {
+    background-color: #2e5854;
+}

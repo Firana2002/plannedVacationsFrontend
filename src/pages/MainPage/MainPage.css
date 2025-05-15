@@ -68,3 +68,28 @@ h2 {
     padding: 20px;
     color: #dc3545;
   }
+
+
+  .dark-theme .year-card {
+  background-color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+  
+.dark-theme .main-content{
+   background-color:#444;/* Унифицированный цвет */
+}
+.dark-theme .year-card p {
+  color: #ccc;
+}
+
+.dark-theme .loading {
+  color: #999;
+}
+
+.dark-theme .error-message {
+  color: #ff6666;
+}
+
+
+

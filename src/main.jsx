@@ -23,8 +23,16 @@ import store from "@/redux/store";
 import { fetchUserDataStart, fetchUserDataSuccess, fetchUserDataFailure } from '@/redux/userSlice';
 import { getEmployee } from '@/api/employees';
 
-const rootElement = document.getElementById("root");
-if (!rootElement) throw new Error("root element not found");
+// Инициализация темы ДО монтирования приложения
+const initializeTheme = () => {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-theme');
+  } else {
+    document.body.classList.remove('dark-theme');
+  }
+};
+initializeTheme();
 
 const AppLayout = () => {
   return (
@@ -72,8 +80,11 @@ const AuthWrapper = () => {
   return <Outlet />;
 };
 
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("root element not found");
+
 const root = createRoot(rootElement);
-root.render( 
+root.render(
   <Provider store={store}>
     <Router>
       <Routes>
@@ -89,7 +100,7 @@ root.render(
             <Route path="/requests" element={<RequestsPage />} />
             <Route path="/vacation-days" element={<EmployeeVacationDaysPage />} />
             <Route path="/all-vacations" element={<AllVacationsPage />} />
-            <Route path="/settings" element={<SettingsPage/>}/>
+            <Route path="/settings" element={<SettingsPage />} />
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/login" replace />} />

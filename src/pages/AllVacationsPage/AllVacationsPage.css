@@ -1,156 +1,271 @@
 /* AllVacationsPage.css */
+
+/* Базовые стили контейнера */
 .vacation-requests-container {
   width: 96%;
   margin: 20px auto;
   font-family: Arial, sans-serif;
+  min-height: 80vh;
 }
 
+/* Секции фильтров */
 .vacation-requests-section {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 20px;
+  padding: 25px;
+  position: relative;
 }
 
+/* Общие стили для элементов управления */
 .vacation-requests-filter, 
 .vacation-requests-search, 
 .vacation-requests-sort {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
+/* Заголовки секций */
 .vacation-requests-filter h2, 
 .vacation-requests-search h2, 
 .vacation-requests-sort h2 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
   color: #333;
+  font-weight: 600;
 }
 
+/* Фильтры: вкладки */
 .vacation-filter-tabs {
   display: flex;
-  margin-bottom: 10px;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
+  margin-bottom: 15px;
 }
 
 .vacation-tab-btn {
   background: #e0e0e0;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
   color: #333;
   transition: all 0.2s ease;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  min-width: 120px;
 }
 
 .vacation-tab-btn.active {
   background: #00514E;
   color: white;
+  box-shadow: 0 2px 6px rgba(0,81,78,0.3);
 }
 
 .vacation-tab-btn:hover:not(.active) {
   background: #d0d0d0;
 }
 
+/* Поле поиска */
 .vacation-requests-search input {
   width: 100%;
-  max-width: 400px;
-  padding: 8px 12px;
+  max-width: 450px;
+  padding: 10px 15px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
+.vacation-requests-search input:focus {
+  border-color: #00514E;
+  outline: none;
+}
+
+/* Сортировка */
 .vacation-sort-options {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  align-items: center;
 }
 
 .vacation-sort-select {
-  padding: 8px 12px;
+  padding: 10px 15px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
 }
 
+/* Таблица заявок */
 .vacation-requests-table-container {
   width: 100%;
   overflow-x: auto;
-  margin-top: 20px;
+  margin-top: 25px;
+  border-radius: 6px;
 }
 
 .vacation-requests-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: auto;
+  min-width: 800px;
 }
 
+/* Общие стили ячеек */
 .vacation-requests-table th, 
 .vacation-requests-table td {
   border: 1px solid #e0e0e0;
-  padding: 12px;
-  text-align: left;
+  padding: 15px;
+  vertical-align: middle;
   word-wrap: break-word;
 }
 
+/* Стили заголовков */
 .vacation-requests-table th {
   background-color: #00514E;
   color: white;
   position: sticky;
   top: 0;
   font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-align: left;
 }
 
-.vacation-requests-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+/* Стили для столбца статуса */
+.vacation-requests-table th[data-column="status"],
+.vacation-requests-table td[data-column="status"] {
+  text-align: center;
+  width: 150px; /* Фиксированная ширина для статуса */
 }
 
-.vacation-requests-table tr:hover {
-  background-color: #f1f1f1;
-}
-
+/* Общие стили бейджей */
 .vacation-status-badge {
   display: inline-block;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  width: 100%;
+  max-width: 140px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 0.9rem;
   font-weight: 500;
+  text-align: center;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* Цвета статусов */
 .vacation-status-badge.approved {
   background-color: #d4edda;
   color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
 .vacation-status-badge.rejected {
   background-color: #f8d7da;
   color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
 .vacation-status-badge.pending {
   background-color: #fff3cd;
   color: #856404;
+  border: 1px solid #ffeeba;
 }
 
+/* Кнопка просмотра */
 .vacation-view-btn {
   background: #00514E;
   color: white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 160px;
+  margin: 0 auto;
 }
 
 .vacation-view-btn:hover:not(:disabled) {
   background: #003d3a;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,61,58,0.2);
 }
 
 .vacation-view-btn:disabled {
   background: #cccccc;
   cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+  .vacation-requests-container {
+    width: 98%;
+    padding: 15px;
+  }
+  
+  .vacation-requests-table th {
+    font-size: 1rem;
+    padding: 12px;
+  }
+  
+  .vacation-status-badge {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .vacation-filter-tabs {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .vacation-tab-btn {
+    width: 100%;
+  }
+  
+  .vacation-requests-table {
+    min-width: 600px;
+  }
+  
+  .vacation-requests-table td {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+  
+  .vacation-requests-table th[data-column="status"],
+  .vacation-requests-table td[data-column="status"] {
+    width: 130px;
+  }
+  
+  .vacation-status-badge {
+    max-width: 110px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vacation-status-badge {
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.3;
+    padding: 6px 10px;
+  }
+  
+  .vacation-requests-table th[data-column="status"],
+  .vacation-requests-table td[data-column="status"] {
+    width: 100px;
+  }
 }
 
 /* Модальное окно */
@@ -274,146 +389,83 @@
   background: #5a6268;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-  .vacation-requests-container {
-    width: 98%;
-    padding: 10px;
+
+/* Темная тема */
+body.dark-theme {
+  .vacation-requests-section {
+    background-color: #2d2d2d;
+    border: 1px solid #3d3d3d;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
-  
-  .vacation-filter-tabs {
-    flex-direction: column;
+
+  .vacation-requests-filter h2,
+  .vacation-requests-search h2,
+  .vacation-requests-sort h2 {
+    color: #88c2bc;
   }
-  
-  .vacation-sort-options {
-    flex-direction: column;
+
+  .vacation-tab-btn {
+    background: #444;
+    color: #d0d0d0;
+    
+    &.active {
+      background: #1f534b;
+      color: #fff;
+    }
+    
+    &:hover:not(.active) {
+      background: #555;
+    }
   }
-  
-  .vacation-requests-table th, 
-  .vacation-requests-table td {
-    padding: 8px;
-    font-size: 0.8rem;
+
+  .vacation-requests-search input {
+    background: #333;
+    border-color: #444;
+    color: #fff;
   }
-  
-  .vacation-modal-actions {
-    flex-direction: column;
+
+  .vacation-sort-select {
+    background: #333;
+    border-color: #444;
+    color: #fff;
   }
-  
-  .vacation-modal-actions button {
-    width: 100%;
+
+  .vacation-requests-table {
+    tr:nth-child(even) {
+      background-color: #383838;
+    }
+    
+    tr:hover {
+      background-color: rgba(255,255,255,0.05);
+    }
   }
-}
 
+  .vacation-status-badge {
+    &.approved {
+      background-color: #2e5854;
+      color: #b3e5b3;
+      border-color: #1f534b;
+    }
+    
+    &.rejected {
+      background-color: #5a2e2e;
+      color: #ffb3b3;
+      border-color: #4a2323;
+    }
+    
+    &.pending {
+      background-color: #4a4533;
+      color: #ffe08a;
+      border-color: #3d3929;
+    }
+  }
 
-/* Темная тема для AllVacationsPage */
-
-body.dark-theme .vacation-requests-section {
-  background-color: #2d2d2d;
-  border: 1px solid #3d3d3d;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-body.dark-theme .vacation-requests-filter h2,
-body.dark-theme .vacation-requests-search h2,
-body.dark-theme .vacation-requests-sort h2 {
-  color: #88c2bc;
-}
-
-body.dark-theme .vacation-tab-btn {
-  background: #444;
-  color: #d0d0d0;
-}
-
-body.dark-theme .vacation-tab-btn.active {
-  background: #1f534b;
-  color: #fff;
-}
-
-body.dark-theme .vacation-tab-btn:hover:not(.active) {
-  background: #444;
-}
-
-body.dark-theme .vacation-requests-search input {
-  background: #333;
-  border-color: #444;
-  color: #fff;
-}
-
-body.dark-theme .vacation-sort-select {
-  background: #333;
-  border-color: #444;
-  color: #fff;
-}
-
-body.dark-theme .vacation-requests-table {
-  background-color: #2d2d2d;
-}
-
-body.dark-theme .vacation-requests-table th {
-  background-color: #1f534b;
-  color: #fff;
-}
-
-body.dark-theme .vacation-requests-table td {
-  border-color: #444;
-  color: #d0d0d0;
-}
-
-body.dark-theme .vacation-requests-table tr:nth-child(even) {
-  background-color: #383838;
-}
-
-body.dark-theme .vacation-requests-table tr:hover {
-  background-color: rgba(255,255,255,0.05);
-}
-
-body.dark-theme .vacation-status-badge.approved {
-  background-color: #2e5854;
-  color: #b3e5b3;
-}
-
-body.dark-theme .vacation-status-badge.rejected {
-  background-color: #5a2e2e;
-  color: #ffb3b3;
-}
-
-body.dark-theme .vacation-status-badge.pending {
-  background-color: #4a4533;
-  color: #ffe08a;
-}
-
-body.dark-theme .vacation-view-btn {
-  background: #1f534b;
-  color: #fff;
-}
-
-body.dark-theme .vacation-view-btn:hover:not(:disabled) {
-  background: #2e5854;
-}
-
-body.dark-theme .vacation-modal {
-  background: #2d2d2d;
-  color: #e0e0e0;
-}
-
-body.dark-theme .vacation-modal h2 {
-  color: #88c2bc;
-}
-
-body.dark-theme .vacation-modal-comment textarea {
-  background: #333;
-  border-color: #444;
-  color: #fff;
-}
-
-body.dark-theme .vacation-modal-approve-btn {
-  background: #2e5854;
-}
-
-body.dark-theme .vacation-modal-reject-btn {
-  background: #5a2e2e;
-}
-
-body.dark-theme .vacation-modal-close-btn {
-  background: #444;
+  .vacation-view-btn {
+    background: #1f534b;
+    color: #fff;
+    
+    &:hover:not(:disabled) {
+      background: #2e5854;
+    }
+  }
 }

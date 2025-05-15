@@ -2,28 +2,26 @@ import React, { useState, useEffect } from 'react';
 import './SettingsPage.css';
 
 const SettingsPage = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
 
-  // Загружаем тему из localStorage при монтировании компонента
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDarkTheme(savedTheme === 'dark');
-      document.body.classList.toggle('dark-theme', savedTheme === 'dark');
-    }
-  }, []);
+    document.body.classList.toggle('dark-theme', isDarkTheme);
+  }, [isDarkTheme]);
 
   const toggleTheme = () => {
-    const newTheme = !isDarkTheme ? 'dark' : 'light';
-    setIsDarkTheme(!isDarkTheme);
-    document.body.classList.toggle('dark-theme', !isDarkTheme);
-    localStorage.setItem('theme', newTheme);
+    setIsDarkTheme(prev => {
+      const newTheme = !prev;
+      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+      return newTheme;
+    });
   };
 
   return (
     <div className="vacation-requests-container">
       <div className="vacation-requests-section">
-        <div className={`settings-page ${isDarkTheme ? 'dark-theme' : ''}`}>
+        <div className="settings-page">
           <span className="theme-label">Сменить тему (светлая/темная)</span>
           <label className="toggle-switch">
             <input

@@ -2,39 +2,39 @@
     width: 96%;
     margin: 20px auto;
     font-family: Arial, sans-serif;
-    background: inherit; /* Добавляем наследование фона */
-  }
-  
-  .vacation-requests-section {
-    background: inherit; /* Наследуем фон от родителя */
+    background: inherit;
+}
+
+.vacation-requests-section {
+    background: inherit;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     padding: 20px;
-    border: none; /* Убираем границу если есть */
-  }
-  
+    border: none;
+}
+
 .settings-page {
     display: flex;
-    align-items: center; /* Вертикальное выравнивание */
-    justify-content: space-between; /* Разделяет элементы по краям */
+    align-items: center;
+    justify-content: space-between;
 }
 
 .theme-label {
-    margin-right: 20px; /* Отступ между текстом и переключателем */
+    margin-right: 20px;
+    color: #666; /* Светло-серый для светлой темы */
 }
 
 .toggle-switch {
-    /* Убираем margin-left: auto; */
-    position: relative; /* Для позиционирования переключателя */
-    display: flex; /* Используем flex для переключателя */
+    position: relative;
+    display: flex;
 }
 
 .toggle-switch input {
-    opacity: 0; /* Скрыть стандартный чекбокс */
-    position: absolute; /* Позиционирование для переключателя */
+    opacity: 0;
+    position: absolute;
 }
 
 .slider {
-    position: relative; /* Изменение позиционирования */
+    position: relative;
     height: 20px;
     width: 50px;
     background-color: #ccc;
@@ -55,26 +55,26 @@
 }
 
 input:checked + .slider {
-    background-color: #1f534b; /* Цвет переключателя при включении */
+    background-color: #1f534b;
 }
 
 input:checked + .slider:before {
-    transform: translateX(30px); /* Движение переключателя при включении */
+    transform: translateX(30px);
 }
 
-.dark-theme {
-    background-color: #444; /* Цвет фона для темной темы */
-    color: #fff; /* Цвет текста для темной темы */
-}
-
-body.dark-theme .vacation-requests-container{
+/* Темная тема */
+body.dark-theme .vacation-requests-container {
     background-color: #444;
 }
-body.dark-theme .vacation-requests-section {
-  background-color: #333;
 
+body.dark-theme .vacation-requests-section {
+    background-color: #333;
 }
 
 body.dark-theme .settings-page {
-  background-color: transparent; /* Делаем прозрачным внутренний контейнер */
+    background-color: transparent;
+}
+
+body.dark-theme .theme-label {
+    color: #ccc; /* Серый цвет для темной темы */
 }

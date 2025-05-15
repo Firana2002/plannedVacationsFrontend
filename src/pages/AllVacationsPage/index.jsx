@@ -23,6 +23,7 @@ const AllVacationsPage = () => {
         if (userData?.roleId === 1) {
           console.log('Fetching all applications as manager');
           data = await getPlannedVacations();
+          
           console.log('Received applications:', data);
         } else {
           console.log('Fetching my applications as employee');
@@ -81,7 +82,7 @@ const AllVacationsPage = () => {
         return true;
     }
   } else {
-    // Внесите изменения здесь:
+    
     if (!isMyApplication) return false;
     switch (filter) {
       case 'approved':

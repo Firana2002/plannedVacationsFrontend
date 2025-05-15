@@ -27,31 +27,23 @@ const Notifications = () => {
         fetchNotifications();
     }, []);
 
-    const handleMarkAsRead = async (id) => {
-        try {
-            await markNotificationAsRead(id);
-            setNotifications(prev =>
-                prev.map(notification =>
-                    notification.notificationId === id
-                        ? { ...notification, isRead: true }
-                        : notification
-                )
-            );
-        } catch (err) {
-            console.error('Error marking notification as read:', err);
-        }
-    };
-
     const handleMarkAllAsRead = async () => {
-        try {
-            await markAllNotificationsAsRead();
-            setNotifications(prev =>
-                prev.map(notification => ({ ...notification, isRead: true }))
-            );
-        } catch (err) {
-            console.error('Error marking all notifications as read:', err);
-        }
-    };
+    try {
+        await markAllNotificationsAsRead();
+        setNotifications([]); // Полная очистка списка
+    } catch (err) {
+        console.error('Error marking all notifications as read:', err);
+    }
+};
+
+const handleMarkAsRead = async (id) => {
+    try {
+        await markNotificationAsRead(id);
+        setNotifications(prev => prev.filter(n => n.notificationId !== id)); // Удаление из списка
+    } catch (err) {
+        console.error('Error marking notification as read:', err);
+    }
+};
 
     if (loading) {
         return <div className="notifications-loading">Загрузка уведомлений...</div>;

@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { getMyNotifications, markNotificationAsRead, markAllNotificationsAsRead, getUnreadNotificationsCount } from '../../api/notifications';
+import { useNavigate } from 'react-router-dom';
+import { 
+  getMyNotifications, 
+  markNotificationAsRead, 
+  markAllNotificationsAsRead, 
+  getUnreadNotificationsCount 
+} from '../../api/notifications';
 import './NotificationBell.css';
 
 const NotificationBell = () => {
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
+    const navigate = useNavigate();
 
-    // Загрузка уведомлений при монтировании компонента
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
@@ -27,26 +33,29 @@ const NotificationBell = () => {
         setShowNotifications(!showNotifications);
     };
 
-    const handleClearNotifications = async () => {
-        try {
-            await markAllNotificationsAsRead();
-            setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
-            setUnreadCount(0);
-        } catch (error) {
-            console.error('Ошибка при очистке уведомлений:', error);
-        }
-    };
+    // Для компонента NotificationBell
+const handleClearNotifications = async () => {
+    try {
+        await markAllNotificationsAsRead();
+        setNotifications([]); // Полная очистка списка
+        setUnreadCount(0);
+    } catch (error) {
+        console.error('Ошибка при очистке уведомлений:', error);
+    }
+};
 
-    const handleMarkAsRead = async (id) => {
-        try {
-            await markNotificationAsRead(id);
-            setNotifications(prev => prev.map(n => 
-                n.notificationId === id ? { ...n, isRead: true } : n
-            ));
-            setUnreadCount(prev => prev - 1);
-        } catch (error) {
-            console.error('Ошибка при отметке уведомления как прочитанного:', error);
-        }
+const handleMarkAsRead = async (id) => {
+    try {
+        await markNotificationAsRead(id);
+        setNotifications(prev => prev.filter(n => n.notificationId !== id)); // Удаление из списка
+        setUnreadCount(prev => prev - 1);
+    } catch (error) {
+        console.error('Ошибка при отметке уведомления как прочитанного:', error);
+    }
+};
+
+    const handleNotificationClick = () => {
+        navigate('/all-vacations');
     };
 
     return (
@@ -56,13 +65,12 @@ const NotificationBell = () => {
                 onClick={handleNotificationsClick}
                 aria-label="Уведомления"
             >
-                <img src="/images/увед.svg" alt="" />
+                <img src="/images/увед.svg" alt="Уведомления" />
                 {unreadCount > 0 && (
                     <span className="badge">{unreadCount}</span>
                 )}
             </button>
 
-            {/* Модальное окно уведомлений */}
             {showNotifications && (
                 <div className="modal-overlay" onClick={handleNotificationsClick}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -72,17 +80,34 @@ const NotificationBell = () => {
                         ) : (
                             <ul className="notifications-list">
                                 {notifications.map((notification) => (
-                                    <li key={notification.notificationId} className="notification-item">
-                                        <img src="/images/увед.svg" alt="иконка уведомления" className="notification-icon" />
-                                        <div className="notification-content">
-                                            <p className="notification-message">{notification.message}</p>
+                                    <li 
+                                        key={notification.notificationId} 
+                                        className="notification-item"
+                                    >
+                                        <img 
+                                            src="/images/увед.svg" 
+                                            alt="Иконка уведомления" 
+                                            className="notification-icon" 
+                                        />
+                                        <div 
+                                            className="notification-content"
+                                            onClick={handleNotificationClick}
+                                        >
+                                            <p className="notification-message">
+                                                {notification.message}
+                                            </p>
                                             <p className="notification-details">
-                                                <span>Дата: {new Date(notification.createdAt).toLocaleDateString('ru-RU')}</span>
+                                                <span>
+                                                    {new Date(notification.createdAt).toLocaleDateString('ru-RU')}
+                                                </span>
                                             </p>
                                             {!notification.isRead && (
                                                 <button
                                                     className="mark-read-button"
-                                                    onClick={() => handleMarkAsRead(notification.notificationId)}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleMarkAsRead(notification.notificationId);
+                                                    }}
                                                 >
                                                     Отметить как прочитанное
                                                 </button>
@@ -93,7 +118,10 @@ const NotificationBell = () => {
                             </ul>
                         )}
                         <div className="modal-buttons">
-                            <button className="modal-close-btn" onClick={handleClearNotifications}>
+                            <button 
+                                className="modal-close-btn"
+                                onClick={handleClearNotifications}
+                            >
                                 Прочитать все
                             </button>
                         </div>
@@ -104,4 +132,4 @@ const NotificationBell = () => {
     );
 };
 
-export default NotificationBell; 
+export default NotificationBell;
