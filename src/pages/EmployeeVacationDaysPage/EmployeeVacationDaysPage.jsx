@@ -219,19 +219,12 @@ const EmployeeVacationDaysPage = () => {
     
     return (
       <div 
-        className={`vacation-tooltip ${showTooltip ? 'show' : ''}`}
-        style={{
-          left: `${tooltipPos.x + 15}px`,
-          top: `${tooltipPos.y + 15}px`,
-          position: 'fixed',
-          backgroundColor: '#fff',
-          border: '1px solid #ccc',
-          padding: '10px',
-          borderRadius: '4px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-          zIndex: 1000,
-          minWidth: '220px'
-        }}
+  className={`vacation-tooltip ${showTooltip ? 'show' : ''}`}
+  style={{
+    left: `${tooltipPos.x + 15}px`,
+    top: `${tooltipPos.y + 15}px`
+  }}
+
         onMouseEnter={handleTooltipMouseEnter}
         onMouseLeave={handleTooltipMouseLeave}
       >
@@ -282,14 +275,14 @@ const EmployeeVacationDaysPage = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
           />
-          {isManager && (
+          
             <button 
               className="add-vacation-btn"
               onClick={handleAddVacationDaysClick}
             >
               + Добавить отпуск
             </button>
-          )}
+          
         </div>
       </div>
 

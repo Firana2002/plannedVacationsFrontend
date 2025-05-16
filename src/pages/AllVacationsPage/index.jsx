@@ -18,9 +18,10 @@ const AllVacationsPage = () => {
     const fetchApplications = async () => {
       try {
         let data;
-        if (userData?.roleId === 1) {
+        if (userData?.roleId === 1 && filter === 'my') {
+          data = await getMyPlannedVacations();
+        } else if (userData?.roleId === 1) {
           data = await getPlannedVacations();
-          console.log('Fetched applications with overlaps:', data);
         } else {
           data = await getMyPlannedVacations();
         }
@@ -31,7 +32,7 @@ const AllVacationsPage = () => {
     };
 
     fetchApplications();
-  }, [userData]);
+  }, [userData, filter]); // Теперь filter в зависимостях
 
   useEffect(() => {
     if (userData?.roleId === 2) {
@@ -61,7 +62,6 @@ const AllVacationsPage = () => {
 
   const filteredApplications = applications.filter(app => {
     const isMyApplication = app.userId === userData.id;
-    
     if (userData?.roleId === 1) {
       switch (filter) {
         case 'my': return isMyApplication;
@@ -87,15 +87,15 @@ const AllVacationsPage = () => {
   const handleStatusUpdate = async (newStatusId) => {
     try {
       await updateVacationStatus(
-        selectedApplication.plannedVacationId, 
-        newStatusId, 
+        selectedApplication.plannedVacationId,
+        newStatusId,
         managerComment
       );
-      setApplications(applications.map(app => 
-        app.plannedVacationId === selectedApplication.plannedVacationId ? { 
-          ...app, 
+      setApplications(applications.map(app =>
+        app.plannedVacationId === selectedApplication.plannedVacationId ? {
+          ...app,
           vacationStatusId: newStatusId,
-          managerComment: managerComment 
+          managerComment: managerComment
         } : app
       ));
       setSelectedApplication(null);
@@ -112,35 +112,33 @@ const AllVacationsPage = () => {
           <h2>Заявки</h2>
           <div className="vacation-filter-tabs">
             {userData?.roleId === 1 && (
-              <button 
+              <button
                 className={`vacation-tab-btn ${filter === 'all' ? 'active' : ''}`}
                 onClick={() => setFilter('all')}
               >
                 Все заявки
               </button>
             )}
-            <button 
+            <button
               className={`vacation-tab-btn ${filter === 'my' ? 'active' : ''}`}
               onClick={() => setFilter('my')}
-              disabled={userData?.roleId === 2}
             >
               Мои заявки
             </button>
-            <button 
+            <button
               className={`vacation-tab-btn ${filter === 'approved' ? 'active' : ''}`}
               onClick={() => setFilter('approved')}
             >
-              Одобренные
+              Согласованные
             </button>
-            <button 
+            <button
               className={`vacation-tab-btn ${filter === 'rejected' ? 'active' : ''}`}
               onClick={() => setFilter('rejected')}
             >
-              Отклоненные
+              Отмененные
             </button>
           </div>
         </div>
-
         <div className="vacation-requests-search">
           <h2>Поиск</h2>
           <input
@@ -151,25 +149,28 @@ const AllVacationsPage = () => {
             className="vacation-search-input"
           />
         </div>
-
         <div className="vacation-requests-table-container">
           <table className="vacation-requests-table">
             <thead>
               <tr>
-                <th style={{width: '9%'}}>id Заявки</th>
-                {userData?.roleId === 1 && <th style={{width: '12%'}}>ФИО</th>}
-                <th style={{width: userData?.roleId === 1 ? '15%' : '18%'}}>Тип Отпуска</th>
-                <th style={{width: userData?.roleId === 1 ? '15%' : '18%'}}>Дата Начала</th>
-                <th style={{width: userData?.roleId === 1 ? '15%' : '18%'}}>Дата Окончания</th>
-                <th style={{width: userData?.roleId === 1 ? '15%' : '18%'}}>Статус</th>
-                {userData?.roleId === 1 && <th style={{width: '15%'}}>Действия</th>}
+                <th style={{ width: '9%' }}>id Заявки</th>
+                {userData?.roleId === 1 && filter !== 'my' && (
+                  <th style={{ width: '12%' }}>ФИО</th>
+                )}
+                <th style={{ width: userData?.roleId === 1 ? '15%' : '18%' }}>Тип Отпуска</th>
+                <th style={{ width: userData?.roleId === 1 ? '15%' : '18%' }}>Дата Начала</th>
+                <th style={{ width: userData?.roleId === 1 ? '15%' : '18%' }}>Дата Окончания</th>
+                <th style={{ width: userData?.roleId === 1 ? '15%' : '18%' }}>Статус</th>
+                {userData?.roleId === 1 && (
+                  <th style={{ width: '15%' }}>Действия</th>
+                )}
               </tr>
             </thead>
             <tbody>
               {searchedApplications?.map((app) => (
                 <tr key={app.plannedVacationId}>
                   <td>{app.plannedVacationId}</td>
-                  {userData?.roleId === 1 && (
+                  {userData?.roleId === 1 && filter !== 'my' && (
                     <td>{app?.employee?.firstName} {app?.employee?.lastName}</td>
                   )}
                   <td>{app?.vacationType.name}</td>
@@ -187,7 +188,7 @@ const AllVacationsPage = () => {
                   </td>
                   {userData?.roleId === 1 && (
                     <td>
-                      <button 
+                      <button
                         className="vacation-view-btn"
                         onClick={() => {
                           setSelectedApplication(app);
@@ -205,7 +206,6 @@ const AllVacationsPage = () => {
           </table>
         </div>
       </div>
-
       {selectedApplication && (
         <div className="vacation-modal-overlay">
           <div className="vacation-modal">
@@ -218,14 +218,13 @@ const AllVacationsPage = () => {
                 </div>
               )}
               <div className="vacation-modal-details">
-                <p><strong>ФИО/тег:</strong> 
-                  {selectedApplication.employee.firstName} {selectedApplication?.employee?.lastName} 
+                <p><strong>ФИО/тег:</strong>
+                  {selectedApplication.employee.firstName} {selectedApplication?.employee?.lastName}
                   ({selectedApplication.employee.tag || '-'})
                 </p>
                 <p><strong>Период отпуска:</strong> {selectedApplication.startDate} - {selectedApplication.endDate}</p>
                 <p><strong>Тип отпуска:</strong> {selectedApplication.vacationType.name}</p>
                 <p><strong>Комментарий сотрудника:</strong> {selectedApplication.comment || '-'}</p>
-                
                 <div className="vacation-modal-comment">
                   <label htmlFor="comment">Комментарий руководителя:</label>
                   <textarea
@@ -237,19 +236,19 @@ const AllVacationsPage = () => {
                 </div>
               </div>
               <div className="vacation-modal-actions">
-                <button 
+                <button
                   className="vacation-modal-approve-btn"
                   onClick={() => handleStatusUpdate(2)}
                 >
-                  Одобрить
+                  Согласовать
                 </button>
-                <button 
+                <button
                   className="vacation-modal-reject-btn"
                   onClick={() => handleStatusUpdate(3)}
                 >
                   Отклонить
                 </button>
-                <button 
+                <button
                   className="vacation-modal-close-btn"
                   onClick={() => setSelectedApplication(null)}
                 >

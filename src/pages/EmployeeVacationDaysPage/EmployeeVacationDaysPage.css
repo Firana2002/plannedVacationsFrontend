@@ -1,30 +1,11 @@
-.search-input {
-  flex: 1; /* Позволяет инпуту занимать доступное пространство */
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px; /* Отступ справа для кнопки */
-}
-
-.add-vacation-btn {
-  padding: 10px 15px;
-  background-color: #30665f;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.add-vacation-btn:hover {
-  background-color: #0d463c;
-}
-
+/* Основной контейнер */
 .vacation-calendar-container {
   padding: 20px;
   max-width: 1400px;
   margin: 0 auto;
 }
 
+/* Заголовок и элементы управления */
 .header-controls {
   margin-bottom: 30px;
 }
@@ -40,14 +21,22 @@
   align-items: center;
 }
 
+/* Поисковое поле */
 .search-input {
   flex: 1;
   padding: 10px 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
+  background-color: #fff;
+  color: #333;
 }
 
+.search-input::placeholder {
+  color: #aaa;
+}
+
+/* Кнопка добавления отпуска */
 .add-vacation-btn {
   background: #30665f;
   color: white;
@@ -56,62 +45,80 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s;
+  font-weight: 500;
 }
 
 .add-vacation-btn:hover {
   background: #234d47;
 }
 
+/* Сетка месяцев */
 .calendar-view {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 18px;
+  gap: 20px;
 }
 
+/* Месяц */
 .calendar-month {
   background: #fff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .calendar-month h3 {
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
   font-size: 1em;
-  color: #34495e;
+  color: #2c3e50;
   text-transform: capitalize;
   font-weight: 500;
 }
 
+/* Сетка дней месяца */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
 }
 
+/* День календаря */
 .calendar-day {
   position: relative;
   min-height: 40px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+  color: #333;
   padding: 2px;
-  background: #fafbfc;
   font-size: 0.82em;
-  transition: background 0.2s;
+  transition: background 0.2s ease;
 }
 
+.calendar-day:hover {
+  background-color: #f5f7fa;
+}
+
+/* Внешние дни (не относятся к месяцу) */
 .calendar-day--outside {
-  background: #f4f6f8;
-  opacity: 0.5;
+  background-color: #f9f9f9;
+  border-color: #eee;
+  opacity: 0.8;
+  color: #aaa;
 }
 
+/* Номер дня */
 .day-number {
   position: absolute;
   top: 2px;
   right: 4px;
   font-size: 0.78em;
-  color: #b0b0b0;
+  color: #555;
+  font-weight: bold;
 }
 
+/* Блоки отпусков */
 .vacation-blocks {
   position: absolute;
   bottom: 2px;
@@ -126,7 +133,7 @@
 .vacation-block {
   height: 12px;
   cursor: pointer;
-  background: rgba(48,102,95,0.8);
+  background: #30665f;
   border-radius: 4px;
   color: #fff;
   font-size: 0.68em;
@@ -136,9 +143,10 @@
   opacity: 0.85;
   transition: opacity 0.15s, box-shadow 0.15s;
 }
+
 .vacation-block:hover {
   opacity: 1;
-  box-shadow: 0 0 4px rgba(0,0,0,0.07);
+  box-shadow: 0 0 4px rgba(0,0,0,0.2);
 }
 
 .vacation-label {
@@ -150,59 +158,13 @@
   padding: 0 1px;
 }
 
-.vacation-tooltip {
-  font-size: 0.93em;
-  max-width: 220px;
-  padding: 0;
-}
-
-
-
-.tooltip-header {
-  padding: 10px 15px;
-  color: white;
-  border-radius: 8px 8px 0 0;
-  font-weight: bold;
-  font-size: 1.1em;
-}
-
-.tooltip-body {
-  padding: 15px;
-  line-height: 1.6;
-  color: #333;
-}
-
-.tooltip-body p {
-  margin: 5px 0;
-  font-size: 0.95em;
-}
-
-/* Dark theme styles */
-body.dark-theme .vacation-tooltip {
-  background: #2d2d2d;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-body.dark-theme .tooltip-body {
-  color: #fff;
-}
-
-.loading, .error-message {
-  padding: 40px;
-  text-align: center;
-  font-size: 1.2em;
-}
-
-.error-message {
-  color: #e74c3c;
-}
-
+/* Подсказки при наведении на отпуск */
 .vacation-tooltip {
   position: fixed;
-  background: white;
+  background: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  pointer-events: none; 
+  pointer-events: none;
   z-index: 1000;
   max-width: 280px;
   opacity: 0;
@@ -213,35 +175,29 @@ body.dark-theme .tooltip-body {
 .vacation-tooltip.show {
   opacity: 1;
   transform: translateY(0);
-  pointer-events: auto; 
+  pointer-events: auto;
 }
 
-body.dark-theme .calendar-month {
-  background-color: #1e1e1e; /* тёмный фон для календаря */
-  color: #e0e0e0; /* светлый цвет текста */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.7); /* более тёмная тень или убрать */
-}
-body.dark-theme .calendar-month h3 {
-  background-color: #1e1e1e; /* тёмный фон для календаря */
-  color: #e0e0e0; /* светлый цвет текста */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.7); /* более тёмная тень или убрать */
+.tooltip-header {
+  padding: 10px 15px;
+  color: #111;
+  border-radius: 8px 8px 0 0;
+  font-weight: bold;
+  font-size: 1.1em;
+  background-color: #f0f0f0;
 }
 
-body.dark-theme .calendar-day {
-  background-color: #2a2a2a; /* фон для дней */
-  border-color: #444; /* более тёмная граница */
-  color: #ccc; /* цвет текста */
+.tooltip-body {
+  padding: 15px;
+  line-height: 1.6;
+  color: #070707;
 }
 
-body.dark-theme .calendar-day--outside {
-  background-color: #1a1a1a;
-  opacity: 0.6;
+.tooltip-body p {
+  margin: 5px 0;
+  font-size: 0.95em;
 }
 
-body.dark-theme .vacation-block {
-  background-color: rgba(225, 237, 235, 0.6); /* чуть более прозрачный */
-  color: #ddd;
-}
 .tooltip-actions {
   margin-left: auto;
   display: flex;
@@ -258,9 +214,10 @@ body.dark-theme .vacation-block {
 }
 
 .tooltip-actions button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.5);
 }
 
+/* Модальное окно подтверждения удаления */
 .confirmation-modal {
   position: fixed;
   top: 0;
@@ -293,6 +250,7 @@ body.dark-theme .vacation-block {
   color: white;
   padding: 8px 16px;
   border-radius: 4px;
+  font-weight: 500;
 }
 
 .confirm-delete-btn:hover {
@@ -303,9 +261,73 @@ body.dark-theme .vacation-block {
   background: #f0f0f0;
   padding: 8px 16px;
   border-radius: 4px;
+  font-weight: 500;
 }
 
-/* Dark theme adjustments */
+/* Сообщения о загрузке и ошибках */
+.loading,
+.error-message {
+  padding: 40px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.error-message {
+  color: #e74c3c;
+}
+
+/* Темная тема */
+body.dark-theme .calendar-month {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+body.dark-theme .calendar-month h3 {
+  color: #e0e0e0;
+}
+
+body.dark-theme .calendar-day {
+  background-color: #2a2a2a;
+  border-color: #444;
+  color: #ccc;
+}
+
+body.dark-theme .calendar-day:hover {
+  background-color: #333;
+}
+
+body.dark-theme .calendar-day--outside {
+  background-color: #1a1a1a;
+  border-color: #333;
+  color: #888;
+  opacity: 0.6;
+}
+
+body.dark-theme .day-number {
+  color: #bbb;
+}
+
+body.dark-theme .vacation-block {
+  background-color: #4a9088;
+  color: #fff;
+}
+
+body.dark-theme .tooltip-header {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+body.dark-theme .vacation-tooltip {
+  background: #302e2e;
+  box-shadow: 0 4px 12px rgba(253, 250, 250, 0.3);
+}
+
+body.dark-theme .tooltip-body {
+  color: #f3efef;
+}
+
 body.dark-theme .modal-content {
   background: #2a2a2a;
   color: white;
@@ -315,5 +337,3 @@ body.dark-theme .cancel-btn {
   background: #404040;
   color: white;
 }
-
-
