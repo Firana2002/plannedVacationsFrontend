@@ -41,8 +41,8 @@ const AllVacationsPage = () => {
 
   const getStatusText = (statusId) => {
     switch (statusId) {
-      case 1: return 'Запланирован';
-      case 2: return 'Подтвержден';
+      case 1: return 'На согласовании';
+      case 2: return 'Согласован';
       case 3: return 'Отменен';
       case 4: return 'Завершен';
       default: return 'Неизвестно';

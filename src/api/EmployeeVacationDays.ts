@@ -17,14 +17,22 @@ export const createEmployeeVacationDay = async (employeeVacationDay) => {
     return response.data;
 };
 
-export const updateEmployeeVacationDay = async (id, employeeVacationDay) => {
-    const response = await axios.put(`${API_URL}/EmployeeVacationDays/${id}`, employeeVacationDay);
-    return response.data;
+export const deleteEmployeeVacationDay = async (id) => {
+  const response = await axios.delete(`${API_URL}/EmployeeVacationDays/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  return response.data;
 };
 
-export const deleteEmployeeVacationDay = async (id) => {
-    const response = await axios.delete(`${API_URL}/EmployeeVacationDays/${id}`);
-    return response.data;
+export const updateEmployeeVacationDay = async (id, employeeVacationDay) => {
+  const response = await axios.put(`${API_URL}/EmployeeVacationDays/${id}`, employeeVacationDay, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  return response.data;
 };
 
 export const getEmployeeVacationDaysByDepartment = async (departmentId) => {

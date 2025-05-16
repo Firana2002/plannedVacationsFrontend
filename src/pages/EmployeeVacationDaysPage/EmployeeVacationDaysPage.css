@@ -19,3 +19,301 @@
   background-color: #0d463c;
 }
 
+.vacation-calendar-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-controls {
+  margin-bottom: 30px;
+}
+
+.header-controls h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.controls-wrapper {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.add-vacation-btn {
+  background: #30665f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-vacation-btn:hover {
+  background: #234d47;
+}
+
+.calendar-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.calendar-month {
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.calendar-month h3 {
+  margin: 0 0 8px 0;
+  font-size: 1em;
+  color: #34495e;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.calendar-day {
+  position: relative;
+  min-height: 40px;
+  border: 1px solid #f0f0f0;
+  padding: 2px;
+  background: #fafbfc;
+  font-size: 0.82em;
+  transition: background 0.2s;
+}
+
+.calendar-day--outside {
+  background: #f4f6f8;
+  opacity: 0.5;
+}
+
+.day-number {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 0.78em;
+  color: #b0b0b0;
+}
+
+.vacation-blocks {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0;
+}
+
+.vacation-block {
+  height: 12px;
+  cursor: pointer;
+  background: rgba(48,102,95,0.8);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.68em;
+  padding: 0 3px;
+  display: flex;
+  align-items: center;
+  opacity: 0.85;
+  transition: opacity 0.15s, box-shadow 0.15s;
+}
+.vacation-block:hover {
+  opacity: 1;
+  box-shadow: 0 0 4px rgba(0,0,0,0.07);
+}
+
+.vacation-label {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 0.68em;
+  line-height: 1.1;
+  padding: 0 1px;
+}
+
+.vacation-tooltip {
+  font-size: 0.93em;
+  max-width: 220px;
+  padding: 0;
+}
+
+
+
+.tooltip-header {
+  padding: 10px 15px;
+  color: white;
+  border-radius: 8px 8px 0 0;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.tooltip-body {
+  padding: 15px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.tooltip-body p {
+  margin: 5px 0;
+  font-size: 0.95em;
+}
+
+/* Dark theme styles */
+body.dark-theme .vacation-tooltip {
+  background: #2d2d2d;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+body.dark-theme .tooltip-body {
+  color: #fff;
+}
+
+.loading, .error-message {
+  padding: 40px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.error-message {
+  color: #e74c3c;
+}
+
+.vacation-tooltip {
+  position: fixed;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  pointer-events: none; 
+  z-index: 1000;
+  max-width: 280px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.vacation-tooltip.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto; 
+}
+
+body.dark-theme .calendar-month {
+  background-color: #1e1e1e; /* тёмный фон для календаря */
+  color: #e0e0e0; /* светлый цвет текста */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.7); /* более тёмная тень или убрать */
+}
+body.dark-theme .calendar-month h3 {
+  background-color: #1e1e1e; /* тёмный фон для календаря */
+  color: #e0e0e0; /* светлый цвет текста */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.7); /* более тёмная тень или убрать */
+}
+
+body.dark-theme .calendar-day {
+  background-color: #2a2a2a; /* фон для дней */
+  border-color: #444; /* более тёмная граница */
+  color: #ccc; /* цвет текста */
+}
+
+body.dark-theme .calendar-day--outside {
+  background-color: #1a1a1a;
+  opacity: 0.6;
+}
+
+body.dark-theme .vacation-block {
+  background-color: rgba(225, 237, 235, 0.6); /* чуть более прозрачный */
+  color: #ddd;
+}
+.tooltip-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.tooltip-actions button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.tooltip-actions button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.confirm-delete-btn {
+  background: #ff4444;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.confirm-delete-btn:hover {
+  background: #cc0000;
+}
+
+.cancel-btn {
+  background: #f0f0f0;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+/* Dark theme adjustments */
+body.dark-theme .modal-content {
+  background: #2a2a2a;
+  color: white;
+}
+
+body.dark-theme .cancel-btn {
+  background: #404040;
+  color: white;
+}
+
+

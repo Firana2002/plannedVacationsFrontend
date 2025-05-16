@@ -333,27 +333,3 @@ body.dark-theme .vacation-form {
         font-size: 14px;
     }
 }
-
-body.dark-theme .modal-content5.warning {
-    background-color: #2d2d2d;
-    border-color: #444;
-    color: #e0e0e0;
-}
-
-body.dark-theme .modal-content5.warning h3 {
-    color: #ffd700;
-}
-
-body.dark-theme .modal-content5.warning p {
-    color: #e0e0e0;
-}
-
-body.dark-theme .overlapping-item {
-    background-color: #333;
-    border-color: #444;
-    color: #e0e0e0;
-}
-
-body.dark-theme .overlapping-item p {
-    color: #e0e0e0;
-}
