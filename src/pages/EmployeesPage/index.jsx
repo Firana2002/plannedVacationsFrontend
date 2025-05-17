@@ -49,12 +49,8 @@ const EmployeesPage = () => {
                   placeholder="Поиск сотрудника..."
                   onChange={handleSearch}
                 />
-                <button 
-                  className="add-vacation-btn"
-                  onClick={() => navigate('/create-vacation')}
-                >
-                  Добавить сотрудника
-                </button>
+                 
+                  
               </div>
 
               <table className="employees-table">

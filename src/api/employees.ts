@@ -28,3 +28,10 @@ export const updateEmployee = async (id, employee) => {
 export const deleteEmployee = async (id) => {
     await axios.delete(`${API_URL}/${id}`);
 };
+
+
+
+export const getMyProfile = async () => {
+  const response = await axios.get(`${API_URL}/me`);
+  return response.data;
+};
