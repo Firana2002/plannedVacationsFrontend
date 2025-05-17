@@ -197,7 +197,7 @@ const VacationRequestForm = () => {
                 {employeeData && (
                     <div className="employee-info">
                         <div className="info-group">
-    <label>Накопленные дни отпуска:</label>
+    <label>Оставшиеся из накопленных дни отпуска:</label>
     <span className="info-value">
         {employeeData.accumulatedVacationDays} из {employeeData.totalAccumulatedVacationDays} дней
     </span>

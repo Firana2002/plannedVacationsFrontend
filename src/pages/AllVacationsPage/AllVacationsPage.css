@@ -441,6 +441,25 @@
 
 /* Темная тема */
 body.dark-theme {
+
+  .vacation-modal-content {
+  padding: 20px;
+  background-color: #414141;
+  color:#cccccc
+}
+.vacation-modal-comment textarea {
+  background-color: #383838;
+  color:#c3e6cb;
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #433b3b;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
   .vacation-requests-section {
     background-color: #2d2d2d;
     border: 1px solid #3d3d3d;
