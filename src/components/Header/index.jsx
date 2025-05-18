@@ -23,7 +23,7 @@ const Header = () => {
     '/employees': 'Сотрудники',
     '/requests': 'Заявки',
     '/vacation-days': 'Дни отпуска',
-    '/all-vacations': 'Все отпуска',
+    '/all-vacations': 'Заявки на отпуск',
     '/settings': 'Настройки'
   };
 
